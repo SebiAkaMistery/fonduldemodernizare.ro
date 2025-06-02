@@ -1274,7 +1274,7 @@
         const formData = new FormData(form);
 
         try {
-          const response = await fetch("http://localhost:5050/send", {
+          const response = await fetch("/api/send", {
             method: 'POST',
             body: formData
           });
@@ -1319,7 +1319,7 @@
     const formData = new FormData(form);
 
     try {
-      const response = await fetch("http://localhost:5050/send", {
+      const response = await fetch("/api/send", {
         method: "POST",
         body: formData,
       });

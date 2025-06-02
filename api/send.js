@@ -1,7 +1,7 @@
 
 
 import nodemailer from 'nodemailer';
-import formidable from 'formidable';
+import { IncomingForm } from 'formidable';
 import fs from 'fs';
 
 export const config = {
@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
-  const form = new formidable.IncomingForm({ multiples: true, uploadDir: '/tmp', keepExtensions: true });
+  const form = new IncomingForm({ multiples: true, uploadDir: '/tmp', keepExtensions: true });
 
   form.parse(req, async (err, fields, files) => {
     if (err) {

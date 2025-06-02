@@ -19,7 +19,8 @@ const form = new IncomingForm({
   multiples: true,
   uploadDir: '/tmp',
   keepExtensions: true,
-  allowEmptyFiles: true   // ✅ ADĂUGAT
+  allowEmptyFiles: true,
+  minFileSize: 0
 });
 
   form.parse(req, async (err, fields, files) => {

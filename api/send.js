@@ -15,7 +15,12 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
-  const form = new IncomingForm({ multiples: true, uploadDir: '/tmp', keepExtensions: true });
+const form = new IncomingForm({
+  multiples: true,
+  uploadDir: '/tmp',
+  keepExtensions: true,
+  allowEmptyFiles: true   // ✅ ADĂUGAT
+});
 
   form.parse(req, async (err, fields, files) => {
     if (err) {

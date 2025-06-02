@@ -21,7 +21,7 @@
       const formData = new FormData(form);
 
       try {
-        const response = await fetch('/api/send', {
+        const response = await fetch("https://fonduldemodernizare.ro/api/send", {
           method: 'POST',
           body: formData
         });

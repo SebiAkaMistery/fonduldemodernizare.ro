@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="ro" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fondul pentru Modernizare - Autoconsum Energie Verde | Expertiză Energetică</title>
+
+    <!-- SEO & Social Meta Tags -->
+    <meta name="description" content="Află rapid dacă ești eligibil pentru finanțare prin Fondul de Modernizare. Calculează-ți rentabilitatea investiției în fotovoltaice cu APEXOR.">
+    <meta name="keywords" content="fondul de modernizare, fotovoltaice, autoconsum, APEXOR, calculator rentabilitate, energie verde, proiecte energie, amortizare investiție">
+    <meta name="author" content="APEXOR">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="ro">
+    <meta name="coverage" content="Romania">
+    <meta name="distribution" content="global">
+    <meta name="rating" content="general">
+    <meta name="googlebot" content="index, follow">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Calculator Fondul de Modernizare – APEXOR">
+    <meta property="og:description" content="Află dacă ești eligibil și estimează-ți rentabilitatea investiției în energie verde. Rapid, automatizat și gratuit.">
+    <meta property="og:image" content="/favicon.png">
+    <meta property="og:url" content="https://fonduldemodernizare.ro">
+    <meta property="og:type" content="website">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Calculator Fondul de Modernizare – APEXOR">
+    <meta name="twitter:description" content="Calculează randamentul proiectului tău fotovoltaic. Automat, online și gratuit.">
+    <meta name="twitter:image" content="/favicon.png">
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://fonduldemodernizare.ro" />
+    <!-- Preconnect Google Fonts & Speed -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <!-- Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    <!-- Preload logo for faster rendering -->
+    <link rel="preload" as="image" href="/apexor-logo.png" type="image/png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .hero-bg { background-color: #f0f9ff; /* sky-50 */ }
+        .nav-link.active { color: #0d9488; /* teal-600 */ border-bottom-color: #0d9488; font-weight: 600; }
+        .stat-card { background-color: white; padding: 1.5rem; border-radius: 0.75rem; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); text-align: center; border: 1px solid #e5e7eb; }
+        .stat-value { font-size: 2.25rem; line-height: 2.5rem; font-weight: 700; color: #059669; /* emerald-600 */ }
+        .stat-label { font-size: 0.875rem; line-height: 1.25rem; color: #4b5563; /* slate-600 */ text-transform: uppercase; margin-top: 0.5rem; }
+        .section-title { font-size: 2.25rem; line-height: 2.5rem; font-weight: 700; color: #0f766e; /* teal-700 */ text-align: center; margin-bottom: 2rem; }
+        .section-subtitle { font-size: 1.125rem; line-height: 1.75rem; color: #475569; /* slate-600 */ text-align: center; max-width: 3xl; margin-left: auto; margin-right: auto; margin-bottom: 3rem; }
+        
+        /* Corecție pentru text tăiat în dropdown-uri */
+        .collapsible-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out; }
+        .collapsible-trigger.open + .collapsible-content {
+            max-height: 1000px;
+            padding: 1rem;
+        }
+        /* FAQ collapsible transition styles */
+        .collapsible-trigger-faq + .answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+        .faq-item.open .collapsible-trigger-faq + .answer {
+            max-height: 9999px;
+            padding-top: 0.5rem;
+        }
+
+        .custom-list-item { display: flex; align-items: flex-start; margin-bottom: 0.5rem; }
+        .custom-list-icon { color: #10b981; /* emerald-500 */ margin-right: 0.75rem; margin-top: 0.25rem; flex-shrink: 0; font-size: 1.1em; }
+        .deadline-banner { background-color: #fef3c7; /* amber-100 */ color: #b45309; /* amber-700 */ padding: 0.75rem 1.25rem; border-radius: 0.5rem; border: 1px solid #fde68a; /* amber-200 */ font-weight: 500;}
+
+        /* Stiluri specifice pentru slider-ul din calculator, pentru consistență cross-browser */
+        input[type="range"].custom-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 8px; /* Înălțimea barei slider-ului */
+            background: #d1d5db; /* bg-gray-300 */
+            border-radius: 9999px; /* rounded-full */
+            cursor: pointer;
+        }
+        input[type="range"].custom-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px; /* w-5 */
+            height: 20px; /* h-5 */
+            background: #059669; /* bg-green-700 */
+            border-radius: 9999px; /* rounded-full */
+            border: 1px solid white;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); /* shadow */
+            cursor: pointer;
+        }
+        input[type="range"].custom-slider::-moz-range-thumb {
+            width: 20px; /* w-5 */
+            height: 20px; /* h-5 */
+            background: #059669; /* bg-green-700 */
+            border-radius: 9999px; /* rounded-full */
+            border: 1px solid white;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); /* shadow */
+            cursor: pointer;
+            appearance: none; /* Necesar pentru Firefox */
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-700 antialiased">
+<h1 class="sr-only">Fondul pentru Modernizare – Consultanță eligibilitate și finanțare energie verde</h1>
+    <header id="header" class="bg-white shadow-md sticky top-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-4">
+            <nav class="flex items-center justify-between h-16">
+                <a href="#hero" class="flex items-center space-x-2">
+                    <picture>
+                      <source srcset="/apexor-logo.png" type="image/png">
+                      <img src="/Apexor_logo_wide_transp.png" alt="Apexor Logo" class="w-auto h-12">
+                    </picture>
+                </a>
+                <div class="hidden md:flex space-x-1 lg:space-x-2 text-sm">
+                    <a href="#despre" class="nav-link py-2 px-3 hover:text-teal-600 border-b-2 border-transparent">Program</a>
+                    <a href="#serviciile-noastre" class="nav-link py-2 px-3 hover:text-teal-600 border-b-2 border-transparent">Serviciile Noastre</a>
+                    <a href="#eligibilitate" class="nav-link py-2 px-3 hover:text-teal-600 border-b-2 border-transparent">Eligibilitate</a>
+                    <a href="#finantare" class="nav-link py-2 px-3 hover:text-teal-600 border-b-2 border-transparent">Finanțare</a>
+                    <a href="#aplicare" class="nav-link py-2 px-3 hover:text-teal-600 border-b-2 border-transparent">Cum Aplic?</a>
+                    <a href="#calculator" class="nav-link py-2 px-3 hover:text-teal-600 border-b-2 border-transparent">Calculator ROI</a>
+                    <a href="#resurse" class="nav-link py-2 px-3 hover:text-teal-600 border-b-2 border-transparent">Resurse</a>
+                    <a href="#contact-form" class="nav-link py-2 px-3 hover:text-teal-600 border-b-2 border-transparent">Contact</a>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden text-teal-600 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </nav>
+            <div id="mobile-menu" class="hidden md:hidden bg-white py-2 border-t border-slate-200">
+                <a href="#despre" class="block py-2 px-4 text-sm text-slate-700 hover:bg-teal-50">Program</a>
+                <a href="#serviciile-noastre" class="block py-2 px-4 text-sm text-slate-700 hover:bg-teal-50">Serviciile Noastre</a>
+                <a href="#eligibilitate" class="block py-2 px-4 text-sm text-slate-700 hover:bg-teal-50">Eligibilitate</a>
+                <a href="#finantare" class="block py-2 px-4 text-sm text-slate-700 hover:bg-teal-50">Finanțare</a>
+                <a href="#aplicare" class="block py-2 px-4 text-sm text-slate-700 hover:bg-teal-50">Cum Aplic?</a>
+                <a href="#calculator" class="block py-2 px-4 text-sm text-slate-700 hover:bg-teal-50">Calculator ROI</a>
+                <a href="#resurse" class="block py-2 px-4 text-sm text-slate-700 hover:bg-teal-50">Resurse</a>
+                <a href="#contact-form" class="block py-2 px-4 text-sm text-slate-700 hover:bg-teal-50">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 md:px-6 pt-8 md:pt-12">
+
+        <section
+          id="hero"
+          class="relative bg-cover bg-center bg-no-repeat w-full min-h-[500px] md:min-h-[600px] flex items-center justify-center rounded-xl shadow-lg mb-12 md:mb-16"
+          style="background-image: url('/banner-pv.webp'); background-position: top;"
+        >
+          <div class="absolute inset-0 bg-black/60 rounded-xl"></div>
+          <div class="relative z-10 max-w-4xl px-6 text-center text-white w-full">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">
+              Fondul pentru Modernizare
+            </h1>
+            <p class="text-lg md:text-xl">
+              Sprijin pentru investiții verzi, autoconsum și eficiență energetică
+            </p>
+            <div class="mb-8 max-w-md mx-auto mt-8">
+              <div class="deadline-banner text-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block mr-2 -mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <strong>TERMEN LIMITĂ DEPUNERE PROIECTE: <br><span class="underline"><p id="deadline-eta-paragraph" class="text-sm">
+                Termen limită: 22 August 2025
+              </p></span></strong>
+              
+                <script>
+                // ETA logic for deadline 27 iunie 2025
+                const today = new Date();
+                const deadline = new Date("2025-08-22");
+                const etaMs = deadline - today;
+                const roundedDays = Math.ceil(etaMs / (1000 * 60 * 60 * 24));
+                // Insert ETA into the next paragraph after rendering
+                window.addEventListener('DOMContentLoaded', function() {
+                  var etaP = document.getElementById('deadline-eta-paragraph');
+                  if (etaP) {
+                    etaP.innerHTML = 'Termen limită: 22 August 2025 <span class="text-slate-600">(ETA: aproximativ ' + roundedDays + ' zile)</span>';
+                  }
+                });
+              </script>
+              </div>
+              
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 max-w-4xl mx-auto mt-8">
+              <div class="stat-card">
+                <div class="stat-value">100%</div>
+                <div class="stat-label">Finanțare Eligibilă</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-value">20 MIL. €</div>
+                <div class="stat-label">Max. / Proiect</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-value">≥70%</div>
+                <div class="stat-label">Autoconsum Minim</div>
+              </div>
+            </div>
+            <p class="mt-8 text-md text-slate-200 max-w-2xl mx-auto">
+              Beneficiați de sprijin nerambursabil și expertiza noastră <strong class="text-emerald-400">autorizată ANRE</strong> pentru a vă reduce costurile energetice și a crește sustenabilitatea afacerii.
+            </p>
+          </div>
+        </section>
+
+        <section id="despre" class="py-12 md:py-0">
+            <h2 class="section-title">Ce Este Fondul pentru Modernizare - Autoconsum?</h2>
+            <p class="section-subtitle">
+                Programul-cheie 1: Surse regenerabile de energie și stocarea energiei, apel dedicat pentru sprijinirea investițiilor în noi capacități de producere a energiei electrice produse din surse regenerabile pentru autoconsum aferent Fondului pentru modernizare, aferent celui de-al II-lea apel.
+            </p>
+            <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-start">
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-xl">
+                    <h3 class="text-2xl font-semibold text-teal-700 mb-4">🎯 Obiectivul Programului</h3>
+                    <p class="text-slate-600 leading-relaxed mb-4">
+                        Principalul scop este creșterea producției de energie electrică din surse regenerabile (solară, eoliană, hidroelectrică) prin instalarea de noi capacități. Aceste investiții sunt menite să sprijine autoconsumul întreprinderilor, contribuind astfel la atingerea țintelor naționale și europene stabilite prin Planul Național Integrat în domeniul Energiei și Schimbărilor Climatice (PNIESC) și prin Fondul pentru Modernizare (FM).
+                    </p>
+                    <h3 class="text-2xl font-semibold text-teal-700 mb-4 mt-6">💡 Ce Înseamnă Autoconsum?</h3>
+                    <p class="text-slate-600 leading-relaxed">
+                        Autoconsumul se referă la consumul propriu al solicitantului din energia electrică produsă de noua capacitate instalată, direct la locul de consum și de producere. O condiție esențială a programului este ca minimum <strong>70%</strong> din energia generată anual de instalația finanțată să fie utilizată pentru acoperirea propriilor nevoi energetice ale beneficiarului.
+                    </p>
+                </div>
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-xl">
+                    <h3 class="text-2xl font-semibold text-teal-700 mb-4">🌍 Beneficii Cheie pentru Afacerea Ta</h3>
+                    <ul class="space-y-3">
+                        <li class="custom-list-item">
+                            <span class="custom-list-icon">💰</span>
+                            <span class="text-slate-600 leading-relaxed"><strong>Reducerea Costurilor cu Energia:</strong> Producând propria energie, diminuați semnificativ facturile și dependența de fluctuațiile prețurilor din piață.</span>
+                        </li>
+                        <li class="custom-list-item">
+                            <span class="custom-list-icon">🔋</span>
+                            <span class="text-slate-600 leading-relaxed"><strong>Independență Energetică Crescută:</strong> Asigurați o sursă de energie stabilă și predictibilă pentru operațiunile dumneavoastră.</span>
+                        </li>
+                        <li class="custom-list-item">
+                            <span class="custom-list-icon">🌱</span>
+                            <span class="text-slate-600 leading-relaxed"><strong>Contribuție la Sustenabilitate:</strong> Reduceți amprenta de carbon și aliniați afacerea la standardele de mediu europene, îmbunătățind imaginea companiei.</span>
+                        </li>
+                        <li class="custom-list-item">
+                            <span class="custom-list-icon">📈</span>
+                            <span class="text-slate-600 leading-relaxed"><strong>Competitivitate Îmbunătățită:</strong> Costurile operaționale reduse și angajamentul față de sustenabilitate pot reprezenta un avantaj competitiv important.</span>
+                        </li>
+                         <li class="custom-list-item">
+                            <span class="custom-list-icon">🇪🇺</span>
+                            <span class="text-slate-600 leading-relaxed"><strong>Aliniere la Politicile Europene:</strong> Demonstrați angajamentul față de tranziția verde și obiectivele Pactului Ecologic European.</span>
+                        </li>
+                    </ul>
+                </div>
+                
+            </div>
+        </section>
+
+        <section id="serviciile-noastre" class="py-12 md:py-16 bg-teal-50 rounded-xl">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="section-title text-teal-700 !text-3xl md:!text-4xl">Partenerul Dvs. Autorizat ANRE pentru Proiecte de Success</h2>
+                <p class="section-subtitle max-w-3xl mx-auto text-slate-600">
+                    Suntem o societate <strong class="text-emerald-600">autorizată ANRE</strong>, cu o experiență vastă în sectorul energetic, gestionând și implementând <strong class="text-emerald-600">peste 50 MWp in sisteme Fotovoltaice</strong>. Vă oferim servicii complete pentru a naviga cu succes apelul Fondului pentru Modernizare:
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mt-10">
+                    <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:scale-105">
+                        <div class="text-4xl text-emerald-500 mb-3">📑</div>
+                        <h3 class="text-xl font-semibold text-teal-700 mb-2">Studiu de Fezabilitate & Dosar Complet</h3>
+                        <p class="text-sm text-slate-500 leading-relaxed">Noi elaborăm <strong class="text-slate-700">studiul de fezabilitate</strong> conform cerințelor și pregătim <strong class="text-slate-700">dosarul complet</strong> pentru depunere în cadrul apelului, asigurând conformitatea și calitatea documentației.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:scale-105">
+                        <div class="text-4xl text-emerald-500 mb-3">🤝</div>
+                        <h3 class="text-xl font-semibold text-teal-700 mb-2">Relația cu Autoritatea Contractantă</h3>
+                        <p class="text-sm text-slate-500 leading-relaxed">Gestionăm <strong class="text-slate-700">orice etapă necesară în raport cu autoritatea contractantă</strong>, de la clarificări și corespondență, până la etapele de contractare și raportare.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:scale-105 sm:col-span-2 lg:col-span-1">
+                         <div class="text-4xl text-emerald-500 mb-3">🛠️</div>
+                        <h3 class="text-xl font-semibold text-teal-700 mb-2">Implementare Proiect</h3>
+                        <p class="text-sm text-slate-500 leading-relaxed">Cu <strong class="text-slate-700">peste 50 MWp experiență</strong> în implementare fotovoltaică, oferim servicii complete de Engineering, Procurement & Construction (EPC) pentru proiectul dumneavoastră.</p>
+                    </div>
+                </div>
+                <div class="mt-6">
+                  <button class="openEligibilityModal inline-block bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 px-8 rounded-lg text-lg transition duration-300 shadow-md hover:shadow-lg">
+                    Solicitați o Consultanță Specializată
+                  </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="eligibilitate" class="py-0 md:py-2 bg-slate-100 rounded-xl">
+            <h2 class="section-title">Sunteți Eligibil?</h2>
+            <p class="section-subtitle">
+                Programul are criterii specifice atât pentru solicitanți, cât și pentru tipurile de proiecte care pot primi finanțare. Verificați condițiile de mai jos.
+            </p>
+            <div class="grid md:grid-cols-2 gap-8 md:gap-12">
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-xl eligibilitate-item">
+                    <h3 class="text-2xl font-semibold text-teal-700 mb-6 text-center">👤 Pentru Solicitanți</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <button class="collapsible-trigger-eligibilitate w-full text-left font-semibold text-lg text-slate-700 p-4 bg-slate-50 rounded-md hover:bg-slate-200 transition flex justify-between items-center">
+                                Tipuri de Entități Eligibile
+                                <span class="arrow transform transition-transform duration-300">
+                                  <svg class="w-4 h-4 inline-block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                                  </svg>
+                                </span>
+                            </button>
+                            <div class="collapsible-content max-h-0 overflow-hidden p-0 border border-t-0 border-slate-200 rounded-b-md">
+                                <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                    <li>Microîntreprinderi</li>
+                                    <li>Întreprinderi Mici și Mijlocii (IMM-uri)</li>
+                                    <li>Întreprinderi Mari (inclusiv cele nou înființate)</li>
+                                    <li>Regii Autonome</li>
+                                </ul>
+                                <p class="text-xs text-slate-500 mt-2">Toți solicitanții trebuie să fie legal constituiți și înregistrați la ONRC în România (sau înregistrați în statul membru UE de origine, cu obligația înregistrării în România până la prima plată).</p>
+                            </div>
+                        </div>
+                        <div>
+                            <button class="collapsible-trigger-eligibilitate w-full text-left font-semibold text-lg text-slate-700 p-4 bg-slate-50 rounded-md hover:bg-slate-200 transition flex justify-between items-center">
+                                Condiții Financiare și Juridice
+                                <span class="arrow transform transition-transform duration-300">
+                                  <svg class="w-4 h-4 inline-block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                                  </svg>
+                                </span>
+                            </button>
+                            <div class="collapsible-content max-h-0 overflow-hidden p-0 border border-t-0 border-slate-200 rounded-b-md">
+                                <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                    <li>Nu se află în dificultate financiară (conform definițiilor UE).</li>
+                                    <li>Nu au datorii restante la bugetul de stat.</li>
+                                    <li>Demonstrează capacitate de cofinanțare (dacă este cazul) și acoperire a cheltuielilor neeligibile.</li>
+                                    <li>Întreprinderile nou-înființate trebuie să aibă capital social subscris vărsat de minimum 100.000 lei.</li>
+                                    <li>Fără condamnări definitive pentru fraudă, corupție, etc.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <button class="collapsible-trigger-eligibilitate w-full text-left font-semibold text-lg text-slate-700 p-4 bg-slate-50 rounded-md hover:bg-slate-200 transition flex justify-between items-center">
+                                Excluderi Sectoriale (CAEN)
+                                <span class="arrow transform transition-transform duration-300">
+                                  <svg class="w-4 h-4 inline-block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                                  </svg>
+                                </span>
+                            </button>
+                            <div class="collapsible-content max-h-0 overflow-hidden p-0 border border-t-0 border-slate-200 rounded-b-md">
+                                <p class="text-slate-600 mb-2"><strong>Nu sunt eligibile</strong> entitățile cu activitate principală în:</p>
+                                <ul class="list-disc list-inside text-red-600 space-y-1">
+                                    <li>Sectorul pescuitului și acvaculturii (CAEN 03).</li>
+                                    <li>Agricultură, vânătoare și servicii anexe (CAEN 01).</li>
+                                    <li>Industria alimentară (CAEN 10).</li>
+                                    <li>Fabricarea băuturilor (CAEN 11).</li>
+                                </ul>
+                                <p class="text-xs text-slate-500 mt-2">Solicitanții cu activități secundare în CAEN 01, 10, 11 pot fi eligibili dacă demonstrează separarea activităților/costurilor și nu solicită finanțare prin schema similară gestionată de MADR.</p>
+                            </div>
+                        </div>
+                        <!-- Nu sunt eligibile - nou bloc collapsible -->
+                        <div>
+                          <button class="collapsible-trigger-eligibilitate w-full text-left font-semibold text-lg text-slate-700 p-4 bg-slate-50 rounded-md hover:bg-slate-200 transition flex justify-between items-center">
+                            Nu sunt eligibile
+                            <span class="arrow transform transition-transform duration-300">
+                              <svg class="w-4 h-4 inline-block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                              </svg>
+                            </span>
+                          </button>
+                          <div class="collapsible-content max-h-0 overflow-hidden p-0 border border-t-0 border-slate-200 rounded-b-md">
+                            <ul class="list-disc list-inside text-slate-600 space-y-1 p-4">
+                              <li>Proiectele care sunt propuse pentru a înlocui capacități mai vechi de producere energie electrică din surse regenerabile de energie solară, eoliană sau hidro.</li>
+                              <li>Proiectele ce vizează extinderi ale capacităților existente.</li>
+                              <i><strong>Notă:</strong> Extinderea unei capacități existente înseamnă construirea unei capacități de producere a energiei electrice a cărei funcționare depinde de o capacitate deja existentă și care nu poate fi contorizată și monitorizată separat față de capacitatea existentă.</i>
+                              <li>Proiectele care nu au prevăzut un autoconsum de minimum 70% din energia electrică produsă prin capacitatea nou instalată.</li>
+                              <li>Proiectele care vizează mai multe locații.</li>
+                              <li>Proiectele mixte care propun investiţii în capacităţi de producţie de energie ce vizează două sau trei tehnologii.</li>
+                              <li>Proiectele care propun doar capacități de stocare. În situația în care proiectele includ și capacități de stocare, costurile pentru instalațiile de stocare nu reprezintă cheltuieli eligibile. Aceste cheltuieli vor fi evidențiate separat în bugetul proiectului (Anexa 7 la ghid) și vor fi trecute pe coloana aferentă contribuției proprii la valoarea neeligibilă a cheltuielii.</li>
+                            </ul>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-xl eligibilitate-item">
+                    <h3 class="text-2xl font-semibold text-teal-700 mb-6 text-center">💡 Pentru Proiecte</h3>
+                     <div class="mb-6 text-center">
+                        <h4 class="font-semibold text-lg text-slate-700 mb-3">Tehnologii Regenerabile Finanțabile:</h4>
+                        <div class="flex justify-center space-x-6 md:space-x-8">
+                            <div class="text-center">
+                                <span class="text-5xl md:text-6xl">☀️</span>
+                                <p class="mt-1 text-sm text-slate-600">Solar</p>
+                            </div>
+                            <div class="text-center">
+                                <span class="text-5xl md:text-6xl">💨</span>
+                                <p class="mt-1 text-sm text-slate-600">Eolian</p>
+                            </div>
+                            <div class="text-center">
+                                <span class="text-5xl md:text-6xl">💧</span>
+                                <p class="mt-1 text-sm text-slate-600">Hidro</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <button class="collapsible-trigger-eligibilitate w-full text-left font-semibold text-lg text-slate-700 p-4 bg-slate-50 rounded-md hover:bg-slate-200 transition flex justify-between items-center">
+                                Condiții Cheie pentru Proiect
+                                <span class="arrow transform transition-transform duration-300">
+                                  <svg class="w-4 h-4 inline-block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                                  </svg>
+                                </span>
+                            </button>
+                            <div class="collapsible-content max-h-0 overflow-hidden p-0 border border-t-0 border-slate-200 rounded-b-md">
+                                <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                    <li>Vizează capacități noi de producție (nu înlocuiri sau extinderi necontorizabile separat).</li>
+                                    <li>Asigură un autoconsum de minimum 70% din energia produsă anual.</li>
+                                    <li>Studiu de Fezabilitate (conform H.G. nr. 907/2016, <strong>nu mai vechi de 2 ani</strong>) și Audit Electroenergetic.</li>
+                                    <li>Se implementează într-o singură locație.</li>
+                                    <li>Finalizarea investițiilor până la 31.12.2026.</li>
+                                    <li>Respectă principiul "efectului stimulativ" (cererea depusă înainte de începerea lucrărilor).</li>
+                                    <li>Solicitantul deține drept de proprietate/superficie/concesiune asupra imobilului pentru min. 5 ani de la plata finală.</li>
+                                    <li>Aviz Tehnic de Racordare (ATR) pentru locul de consum și producere (obligatoriu în etapa de precontractare).</li>
+                                    <li>Respectă producția minimă anuală (factori de capacitate specifici pe tehnologie).</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <button class="collapsible-trigger-eligibilitate w-full text-left font-semibold text-lg text-slate-700 p-4 bg-slate-50 rounded-md hover:bg-slate-200 transition flex justify-between items-center">
+                                Activități Finanțabile
+                                <span class="arrow transform transition-transform duration-300">
+                                  <svg class="w-4 h-4 inline-block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                                  </svg>
+                                </span>
+                            </button>
+                            <div class="collapsible-content max-h-0 overflow-hidden p-0 border border-t-0 border-slate-200 rounded-b-md">
+                                <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                    <li>Achiziționarea de instalații și echipamente noi pentru construirea noilor capacități de producție.</li>
+                                    <li>Construcții care fac obiectul proiectului de producere a energiei regenerabile.</li>
+                                </ul>
+                                <p class="text-xs text-slate-500 mt-2">Costurile pentru instalațiile de stocare a energiei nu sunt eligibile, dar proiectele pot include astfel de capacități (cheltuieli suportate de beneficiar), iar stocarea aduce punctaj suplimentar la evaluare (10 puncte!).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="finantare" class="py-4 md:py-6">
+            <h2 class="section-title">Detalii Financiare Aprofundate</h2>
+            <p class="section-subtitle">
+                Înțelegeți cum este structurat sprijinul financiar, de la intensitatea ajutorului de stat la tipurile de cheltuieli acoperite și alocările bugetare.
+            </p>
+             <p class="text-sm text-slate-500 text-center mb-6 -mt-8">
+                Sprijinul financiar se acordă în conformitate cu regulile ajutorului de stat, în baza Art. 41 din Regulamentul (UE) nr. 651/2014 (GBER).
+            </p>
+            
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-xl mb-8 md:mb-12">
+                <div class="grid md:grid-cols-2 gap-6 text-center mb-10">
+                    <div class="bg-teal-50 p-6 rounded-lg">
+                        <p class="text-slate-600 text-sm uppercase">Intensitate Ajutor</p>
+                        <p class="text-4xl font-bold text-teal-600">Până la 100%</p>
+                        <p class="text-xs text-slate-500">(din cheltuielile eligibile)</p>
+                    </div>
+                    <div class="bg-teal-50 p-6 rounded-lg">
+                        <p class="text-slate-600 text-sm uppercase">Valoare Maximă / Proiect</p>
+                        <p class="text-4xl font-bold text-teal-600">20 Mil. EUR</p>
+                        <p class="text-xs text-slate-500">(pe întreprindere)</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-0 md:p-0 rounded-xl mt-4 mb-10"> 
+                    <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-start">
+                        <div class="bg-slate-50 p-4 md:p-6 rounded-lg shadow"> 
+                            <h3 class="text-xl font-semibold text-teal-700 mb-4 text-center md:text-left">Plafoane Maxime Ajutor / MW</h3>
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full border border-slate-200 rounded-md text-sm">
+                                    <thead class="bg-slate-200">
+                                        <tr>
+                                            <th class="text-left py-2 px-3 font-semibold text-xs text-slate-600 uppercase">Tehnologie</th>
+                                            <th class="text-left py-2 px-3 font-semibold text-xs text-slate-600 uppercase">Capacitate</th>
+                                            <th class="text-right py-2 px-3 font-semibold text-xs text-slate-600 uppercase">Plafon Ajutor</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-slate-700 bg-white">
+                                        <tr>
+                                            <td class="py-2 px-3 border-b border-slate-200">Eoliană</td>
+                                            <td class="py-2 px-3 border-b border-slate-200">Toate</td>
+                                            <td class="py-2 px-3 border-b border-slate-200 text-right font-medium">700.000 €/MW</td>
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="2" class="py-2 px-3 border-b border-slate-200 align-top">Solară</td>
+                                            <td class="py-2 px-3 border-b border-slate-200">≤ 5 MW (inclusiv)</td>
+                                            <td class="py-2 px-3 border-b border-slate-200 text-right font-medium">450.000 €/MW</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-3 border-b border-slate-200">> 5 MW</td>
+                                            <td class="py-2 px-3 border-b border-slate-200 text-right font-medium">360.000 €/MW</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-3">Hidro</td>
+                                            <td class="py-2 px-3">Toate</td>
+                                            <td class="py-2 px-3 text-right font-medium">1.805.000 €/MW</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-4 md:p-6 rounded-lg shadow"> 
+                            <h3 class="text-xl font-semibold text-teal-700 mb-4 text-center md:text-left">Alocare Bugetară (Runda II Apel ~310,7 Mil. €)</h3>
+                            <div class="text-sm bg-white p-4 rounded-md border border-slate-200">
+                                <div class="flex justify-between py-1.5 border-b border-slate-200"><span>Energie Eoliană:</span> <span class="font-medium text-teal-600">16,70 Mil. EUR</span></div>
+                                <div class="flex justify-between py-1.5 border-b border-slate-200"><span>Energie Solară (≤5MW):</span> <span class="font-medium text-teal-600">151,35 Mil. EUR</span></div>
+                                <div class="flex justify-between py-1.5 border-b border-slate-200"><span>Energie Solară (>5MW):</span> <span class="font-medium text-teal-600">117,65 Mil. EUR</span></div>
+                                <div class="flex justify-between py-1.5"><span>Energie Hidro:</span> <span class="font-medium text-teal-600">25,00 Mil. EUR</span></div>
+                            </div>
+                            <p class="text-xs text-slate-500 text-center md:text-left mt-3">Sumele sunt indicative și pot suferi modificări/redistribuiri în funcție de cerere.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6 md:gap-8 mb-10">
+                    <div class="bg-emerald-50 p-6 rounded-lg border-l-4 border-emerald-500">
+                        <h4 class="text-xl font-semibold text-emerald-700 mb-3">✅ Cheltuieli Eligibile</h4>
+                        <ul class="list-disc list-inside text-slate-600 space-y-1">
+                          <li>Cheltuieli pentru amenajarea terenului</li>
+                          <li>Cheltuieli pentru asigurarea utilităților necesare obiectivului</li>
+                          <li>Cheltuieli pentru plata diriginților de șantier</li>
+                          <li>Cheltuieli pentru execuția lucrărilor de construcții și instalații aferente obiectivului</li>
+                          <li>Cheltuieli pentru achiziția de utilaje, echipamente tehnologice și funcționale cu montaj</li>
+                          <li>Cheltuieli pentru montaj utilaje, echipamente tehnologice și funcționale</li>
+                          <li>Cheltuieli pentru dotări independente</li>
+                          <li>Cheltuieli pentru active necorporale (brevete, licențe, know-how sau alte drepturi de proprietate intelectuală)</li>
+                          <li>Cheltuieli pentru organizarea de șantier</li>
+                          <li>Cheltuieli conexe organizării șantierului</li>
+                        </ul>
+                    </div>
+                    <div class="bg-red-50 p-6 rounded-lg border-l-4 border-red-500">
+                        <h4 class="text-xl font-semibold text-red-700 mb-3">❌ Cheltuieli Neeligibile (Exemple)</h4>
+                        <ul class="list-disc list-inside text-slate-600 space-y-1">
+                          <li>Achiziția teren, mijloace de transport si/sau imobile</li>
+                          <li>Cheltuieli pentru amenajări pentru protecția mediului</li>
+                          <li>Cheltuieli pentru relocarea sau protecția utilităților</li>
+                          <li>Cheltuieli pentru studii de teren și documentații tehnice (SF, DTAC, etc.), avize, acorduri, autorizații</li>
+                          <li>Cheltuieli pentru consultanță generală și management de proiect</li>
+                          <li>Cheltuieli pentru audit financiar, coordonator SSM</li>
+                          <li>Achiziția de utilaje care nu necesită montaj și echipamente de transport</li>
+                          <li>Comisioane, cote, taxe, dobânzi, amortizare, leasing, chirii, TVA</li>
+                          <li>Cheltuieli pentru audit energetic, informare și publicitate (Oligatorii)</li>
+                          <li>Cheltuieli pentru probe tehnologice, teste, pregătirea personalului de exploatare</li>
+                          <li>Cheltuieli cu costuri operaționale și întreținere, execuție în regie proprie</li>
+                          <li>Cheltuieli cu branșamentul (conectarea la stația/postul de transformare)</li>
+                        </ul>
+                    </div>
+                </div>
+                 <div class="bg-sky-50 p-6 rounded-lg border-l-4 border-sky-500 shadow">
+                    <h4 class="text-xl font-semibold text-sky-700 mb-3">💡 Opțiune de Prefinanțare Disponibilă</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Pentru a facilita demararea rapidă a investiției, beneficiarii pot solicita o prefinanțare de până la <strong>30%</strong> din valoarea ajutorului de stat aprobat. Aceasta necesită prezentarea unei scrisori de garanție bancară și este urmată de cereri de rambursare pentru justificarea sumelor.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section
+          id="aplicare"
+          class="relative bg-cover bg-center bg-no-repeat py-16 px-6 md:px-12"
+          style="background-image: url('/consult.webp')"
+        >
+          <div class="absolute inset-0 bg-white/70"></div>
+          <div class="relative z-10 max-w-7xl mx-auto">
+            <h2 class="section-title">Cum Aplic? Pașii Către Finanțare</h2>
+            <p class="section-subtitle text-black">
+                Procesul de aplicare este structurat, dar cu sprijinul nostru autorizat ANRE, devine mult mai simplu. </br>Termenul limită pentru depunerea proiectelor este <strong class="text-red-600 underline">22 AUGUST 2025</strong>.
+            </p>
+            <div class="max-w-3xl mx-auto space-y-6">
+                <div class="bg-white p-6 rounded-lg shadow-lg flex items-start space-x-4 transform hover:scale-105 transition-transform duration-300">
+                    <div class="flex-shrink-0 bg-emerald-500 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl">1</div>
+                    <div>
+                        <h4 class="font-semibold text-lg text-teal-700 mb-1">Pregătirea Documentației <span class="text-sm font-normal text-emerald-600">- Noi ne ocupăm!</span></h4>
+                        <p class="text-sm text-slate-600">Ca societate <strong class="text-teal-700">autorizată ANRE</strong>, elaborăm Studiul de Fezabilitate (conform H.G. nr. 907/2016, nu mai vechi de 2 ani), Auditul Electroenergetic (pentru justificarea autoconsumului de min. 70%) și <strong class="text-teal-700">dosarul complet</strong> de depus. Gestionăm toate cerințele pentru o aplicare de succes.</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg flex items-start space-x-4 transform hover:scale-105 transition-transform duration-300">
+                    <div class="flex-shrink-0 bg-emerald-500 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl">2</div>
+                    <div>
+                        <h4 class="font-semibold text-lg text-teal-700 mb-1">Depunerea Online</h4>
+                        <p class="text-sm text-slate-600">Cererea de finanțare și toate anexele se depun exclusiv prin platforma electronică MySMIS2021, la adresa <a href="https://mysmis2021.gov.ro/" target="_blank" rel="noopener noreferrer" class="text-blue-700 hover:underline">mysmis2021.gov.ro</a>. Asigurăm conformitatea depunerii.</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg flex items-start space-x-4 transform hover:scale-105 transition-transform duration-300">
+                    <div class="flex-shrink-0 bg-emerald-500 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl">3</div>
+                    <div>
+                        <h4 class="font-semibold text-lg text-teal-700 mb-1">Evaluarea Proiectelor</h4>
+                        <p class="text-sm text-slate-600">Include o evaluare preliminară tehnico-economică (punctaj bazat pe ajutorul/MW și stocare) și o verificare a conformității administrative și a eligibilității. Vă reprezentăm în relația cu autoritatea.</p>
+                    </div>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-lg flex items-start space-x-4 transform hover:scale-105 transition-transform duration-300">
+                    <div class="flex-shrink-0 bg-emerald-500 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl">4</div>
+                    <div>
+                        <h4 class="font-semibold text-lg text-teal-700 mb-1">Precontractare și Contractare</h4>
+                        <p class="text-sm text-slate-600">Dacă proiectul este admis, urmează etapa de precontractare (transmitere documente actualizate: ATR, act mediu etc.) și apoi semnarea contractului de finanțare. Gestionăm și această etapă.</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg flex items-start space-x-4 transform hover:scale-105 transition-transform duration-300">
+                    <div class="flex-shrink-0 bg-emerald-500 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl">5</div>
+                    <div>
+                        <h4 class="font-semibold text-lg text-teal-700 mb-1">Implementarea Proiectului</h4>
+                        <p class="text-sm text-slate-600">Realizarea investiției conform planului aprobat, cu termen de finalizare până la 31.12.2026. Cu experiența noastră in gestionarea a <strong class="text-teal-700">peste 50 MWp</strong>, asigurăm implementarea completă și la cheie.</p>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="calculator" class="py-4 md:py-4">
+    <h2 class="section-title">Estimator Rentabilitate Investiție (ROI)</h2>
+    <p class="section-subtitle">
+        Introduceți datele estimative pentru a obține o imagine preliminară asupra rentabilității și indicatorilor proiectului dumneavoastră.
+    </p>
+
+    <div class="w-full flex flex-col items-stretch group bg-white rounded-[10px] border border-[rgb(87,179,62)] text-[rgb(34,38,37)] font-[DM_Sans] text-[16px] leading-[27.2px] transition-all duration-400 ease overflow-hidden px-4 py-4 mt-6 hover:bg-[linear-gradient(90deg,_rgba(24,130,128,0.9)_0%,_rgba(24,130,128,0.9)_40%,_rgba(110,186,77,0.6)_100%)] hover:bg-cover hover:bg-no-repeat hover:bg-center">
+        <div class="flex-1">
+                <h2 class="text-2xl font-semibold text-center text-blue-900 mb-4 transition-colors duration-0 group-hover:text-white">
+                    Calculul rentabilității sistemului fotovoltaic estimat
+                </h2>
+                <h3 class="text-lg font-medium text-center text-gray-700 mb-6 transition-colors duration-0 group-hover:text-white">
+                    Detaliile consumului energetic ale beneficiarului
+                </h3>
+                <div class="overflow-x-auto">
+                  <form class="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-gray-50 p-6 rounded-lg shadow w-full">
+                  <div class="space-y-6 lg:pr-4">
+                    <div>
+                        <div class="block text-sm font-medium text-gray-700 mb-1 flex justify-between items-center">
+                            <span>Consum lunar (kWh)</span>
+                            <input
+                                type="text"
+                                id="monthlyConsumptionInput"
+                                placeholder="10.000 - 1.000.000"
+                                class="w-40 border border-gray-400 rounded px-3 py-2 text-sm text-gray-900 text-right font-mono bg-gray-50 focus:bg-white focus:border-green-700 transition-colors duration-200"
+                                inputmode="numeric"
+                                pattern="[0-9,.]*"
+                            />
+                        </div>
+                        <input
+                            type="range"
+                            id="monthlyConsumptionSlider"
+                            min="10000" max="1000000" step="1000"
+                            class="custom-slider"
+                        />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1 flex justify-between items-center">
+                            <span>Autoconsum (%)</span>
+                            <span id="selfValueDisplay" class="inline-block bg-white border border-gray-300 rounded px-2 py-0.5 text-sm font-semibold text-gray-800"></span>
+                        </label>
+                        <input
+                            type="range"
+                            id="selfConsumptionSlider"
+                            min="70" max="100" 
+                            class="custom-slider"
+                        />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1 flex justify-between items-center">
+                            <span>Preț energie furnizor (RON/kWh)</span>
+                            <span id="buyPriceDisplay" class="inline-block bg-white border border-gray-300 rounded px-2 py-0.5 text-sm font-semibold text-gray-800"></span>
+                        </label>
+                        <input
+                            type="range"
+                            id="buyPriceSlider"
+                            min="0.7" max="3" step="0.01"
+                            class="custom-slider"
+                        />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1 flex justify-between items-center">
+                            <span>Preț energie injectată (RON/kWh)</span>
+                            <span id="sellPriceDisplay" class="inline-block bg-white border border-gray-300 rounded px-2 py-0.5 text-sm font-semibold text-gray-800"></span>
+                        </label>
+                        <input
+                            type="range"
+                            id="sellPriceSlider"
+                            min="0.1" max="3" step="0.01"
+                            class="custom-slider"
+                        />
+                    </div>
+                    <div>
+                        <div class="block text-sm font-medium text-gray-700 mb-1 flex justify-between items-center">
+                            <span>Sistem Fotovoltaic (kWp)</span>
+                            <input
+                                type="text"
+                                id="pvSystemInput"
+                                placeholder="100 - 15.000"
+                                class="w-40 border border-gray-400 rounded px-3 py-2 text-sm text-gray-900 text-right font-mono bg-gray-50 focus:bg-white focus:border-green-700 transition-colors duration-200"
+                                inputmode="numeric" pattern="[0-9,.]*"
+                            />
+                        </div>
+                        <input
+                            type="range"
+                            id="pvSystemSlider"
+                            min="100" max="15000" step="1"
+                            class="custom-slider"
+                        />
+                        <div id="recommendedPvSystemContainer" class="border border-dotted border-green-700 rounded-md p-3 mt-3 text-green-800 bg-green-50 text-center" style="display: none;">
+                            Recomandat pentru autoconsum selectat: <span class="font-semibold" id="recommendedPvSystemDisplay"></span> kWp
+                        </div>
+                    </div>
+                    <div>
+                        <div class="block text-sm font-medium text-gray-700 mb-1 flex justify-between items-center">
+                            <span>Capacitate de stocare (kWh)</span>
+                            <input
+                                type="text"
+                                id="storageCapacityInput"
+                                placeholder="30 - 5.000"
+                                class="w-40 border border-gray-400 rounded px-3 py-2 text-sm text-gray-900 text-right font-mono bg-gray-50 focus:bg-white focus:border-green-700 transition-colors duration-200"
+                                inputmode="numeric" pattern="[0-9,.]*"
+                            />
+                        </div>
+                        <input
+                            type="range"
+                            id="storageCapacitySlider"
+                            min="30" max="5000" step="1"
+                            class="custom-slider"
+                        />
+                        <div id="recommendedStorageContainer" class="border border-dotted border-green-700 rounded-md p-3 mt-3 text-green-800 bg-green-50 text-center" style="display: none;">
+                             Recomandat pentru sistemul fotovoltaic configurat: <span class="font-semibold" id="recommendedStorageDisplay"></span> kWh
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                          <div class="bg-white border border-green-700 rounded-lg p-6 shadow flex flex-col items-center justify-center text-center">
+                              <div class="text-gray-600 text-sm mb-2 font-medium uppercase tracking-wide">Cost estimat sistem fotovoltaic</div>
+                              <div class="text-2xl font-bold text-green-700 mb-1"><span id="pvCostEurDisplay"></span> <span class="text-base font-semibold text-gray-700">EUR</span></div>
+                              <div class="text-base font-semibold text-gray-700"><span id="pvCostRonDisplay"></span> <span class="text-sm font-normal">RON</span></div>
+                          </div>
+                          <div class="bg-white border border-green-700 rounded-lg p-6 shadow flex flex-col items-center justify-center text-center">
+                              <div class="text-gray-600 text-sm mb-2 font-medium uppercase tracking-wide">COST ESTIMAT TOTAL FOTOVOLTAIC + STOCARE</div>
+                              <div class="text-2xl font-bold text-green-700 mb-1"><span id="storageCostEurDisplay"></span> <span class="text-base font-semibold text-gray-700">EUR</span></div>
+                              <div class="text-base font-semibold text-gray-700"><span id="storageCostRonDisplay"></span> <span class="text-sm font-normal">RON</span></div>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="lg:pl-4 lg:border-l lg:border-gray-200">
+                    <div class="space-y-4">
+                      <div class="overflow-x-auto">
+                        <div class="max-w-6xl mx-auto flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4">
+                          <div class="md:col-span-1 flex-1 border border-gray-200 rounded-lg p-6 shadow text-center text-gray-800">
+                            <h4 class="text-lg font-semibold mb-2">Producție anuală estimată</h4>
+                            <div class="block text-sm font-medium text-gray-700 mb-1 flex justify-center items-center gap-2">
+                              <span>Producție totală estimată (la 1.100 ore/an)</span>
+                              <span id="annualProductionDisplay" class="inline-block bg-white border border-gray-300 rounded px-2 py-0.5 text-sm font-semibold text-gray-800"></span>
+                            </div>
+                            <div class="mt-4 w-full h-[300px] md:h-[400px] bg-gray-100 flex items-center justify-center rounded" style="position: relative;">
+                              <canvas id="roiChart" style="width:100% !important; height:100% !important; display: block;"></canvas>
+                            </div>
+                            <div class="overflow-x-auto px-4">
+                              <table class="min-w-full table-auto border border-green-700 rounded-lg overflow-hidden shadow">
+                                <tbody class="divide-y divide-green-700 text-sm text-gray-800">
+                                  <tr class="hover:bg-green-50">
+                                    <td class="px-4 py-2 font-medium">Producție autoconsumată estimată</td>
+                                    <td class="px-4 py-2 text-green-700 font-semibold"><span id="selfConsumedDisplay"></span> / an</td>
+                                  </tr>
+                                  <tr class="hover:bg-green-50">
+                                    <td class="px-4 py-2 font-medium">Surplus energetic estimat</td>
+                                    <td class="px-4 py-2 text-green-700 font-semibold"><span id="surplusEnergyDisplay"></span> / an</td>
+                                  </tr>
+                                  <tr class="hover:bg-green-50">
+                                    <td class="px-4 py-2 font-medium">Economie din autoconsum</td>
+                                    <td class="px-4 py-2 text-green-700 font-semibold"><span id="selfSavingDisplay"></span> / an</td>
+                                  </tr>
+                                  <tr class="hover:bg-green-50">
+                                    <td class="px-4 py-2 font-medium">Venit din energia injectată</td>
+                                    <td class="px-4 py-2 text-green-700 font-semibold"><span id="injectedIncomeDisplay"></span> / an</td>
+                                  </tr>
+                                  <tr class="hover:bg-green-50">
+                                    <td class="px-4 py-2 font-medium">Venituri anuale estimate din sistemul Fotovoltaic</td>
+                                    <td class="px-4 py-2 text-green-700 font-semibold"><span id="annualPVIncomeDisplay"></span> / an</td>
+                                  </tr>
+                                  <tr class="hover:bg-green-50">
+                                    <td class="px-4 py-2 font-medium">Venituri anuale estimate cu sistem de stocare</td>
+                                    <td class="px-4 py-2 text-green-700 font-semibold"><span id="annualStorageIncomeDisplay"></span> / an</td>
+                                  </tr>
+                                  <tr class="hover:bg-green-50">
+                                    <td class="px-4 py-2 font-medium">Amortizare Sistem Fotovoltaic (fără GRANT)</td>
+                                    <td class="px-4 py-2 text-green-700 font-semibold"><span id="paybackPvDisplay"></span></td>
+                                  </tr>
+                                  <tr class="hover:bg-green-50">
+                                    <td class="px-4 py-2 font-medium">Amortizare Sistem Fotovoltaic + Stocare (fără GRANT)</td>
+                                    <td class="px-4 py-2 text-green-700 font-semibold"><span id="paybackBessDisplay"></span></td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  </form>
+                </div>
+
+                    <!-- GRID DUBLU: Indicatori esențiali + Bugetul proiectului (nou layout) -->
+    <div class="w-full max-w-6xl bg-white p-6 rounded-lg shadow mx-auto mt-6">
+      <!-- Moved: State aid per MW info + slider, centered above tables -->
+      <div class="flex flex-col items-center justify-center w-full mb-8">
+        <div class="text-center bg-yellow-50 text-yellow-900 font-medium py-4 px-6 rounded-md border border-yellow-300 w-full max-w-2xl mx-auto">
+          Valoarea ajutorului de stat solicitat pe MW:
+          <span id="stateAidPerMWDisplay" class="ml-2 font-semibold text-green-700 align-middle"></span>
+          <br />
+          <span class="block mt-2 text-sm">Maxim 450.000 Euro/MW – pentru capacitățile instalate de până la 5 MW</span>
+          <span class="block text-sm">Maxim 360.000 Euro/MW – pentru capacitățile instalate de peste 5 MW</span>
+        </div>
+        <div class="w-full flex flex-col items-center mt-6 max-w-xl">
+          <label for="stateAidPerMWInput" class="block text-sm font-medium text-gray-700 mb-2 text-center w-full">
+            Ajustează valoarea ajutorului de stat solicitat pe MW
+          </label>
+          <input
+            type="text"
+            id="stateAidPerMWInput"
+            class="mb-2 w-52 border border-gray-300 rounded px-2 py-1 text-sm text-gray-900 bg-gray-100 focus:bg-white text-center"
+            inputmode="numeric" pattern="[0-9,.]*"
+          />
+          <input
+            type="range"
+            id="stateAidPerMWSlider"
+            min="1000" max="450000" step="1000"
+            class="custom-slider w-full"
+            style="max-width: 400px;"
+          />
+        </div>
+      </div>
+      <!-- Responsive grid for tables -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Indicatori esențiali ai proiectului -->
+        <div class="p-4 bg-white rounded-lg border border-gray-200 shadow flex flex-col h-full">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4">Indicatori esențiali ai proiectului</h3>
+          <div class="w-full overflow-hidden">
+          <table class="table-auto w-full text-left border-collapse break-words">
+            <thead>
+              <tr class="text-sm text-gray-600 border-b">
+                <th class="py-2 pr-2 break-words whitespace-normal w-1/12">ID</th>
+                <th class="py-2 pr-2 break-words whitespace-normal w-5/12">Indicator</th>
+                <th class="py-2 pr-2 break-words whitespace-normal w-3/12">Unitate</th>
+                <th class="py-2 break-words whitespace-normal w-3/12">Valoare estimată</th>
+              </tr>
+            </thead>
+            <tbody class="text-sm text-gray-800">
+              <tr>
+                <td class="border border-gray-300 px-2 py-1 font-semibold break-words whitespace-normal">I.1</td>
+                <td class="border border-gray-300 px-3 py-1 break-words whitespace-normal"><span class="text-justify break-words whitespace-normal">Capacitate nou instalată pentru producerea energiei din surse regenerabile (eolian, solar, hidro)</span></td>
+                <td class="border border-gray-300 px-2 py-1 break-words whitespace-normal">MW</td>
+                <td class="border border-gray-300 px-2 py-1 break-words whitespace-normal"><span id="indicatorI1Display" class="inline-block text-right break-words whitespace-normal"></span></td>
+              </tr>
+              <tr>
+                <td class="border border-gray-300 px-2 py-1 font-semibold break-words whitespace-normal">I.2</td>
+                <td class="border border-gray-300 px-3 py-1 break-words whitespace-normal"><span class="text-justify break-words whitespace-normal">Reducerea anuală estimată a emisiilor de gaze cu efect de seră</span></td>
+                <td class="border border-gray-300 px-2 py-1 break-words whitespace-normal">tone CO₂ echiv./an</td>
+                <td class="border border-gray-300 px-2 py-1 break-words whitespace-normal"><span id="indicatorI2Display" class="inline-block text-right break-words whitespace-normal"></span></td>
+              </tr>
+              <tr>
+                <td class="border border-gray-300 px-2 py-1 font-semibold break-words whitespace-normal">I.3</td>
+                <td class="border border-gray-300 px-3 py-1 break-words whitespace-normal"><span class="text-justify break-words whitespace-normal">Producția medie anuală de energie din surse regenerabile</span></td>
+                <td class="border border-gray-300 px-2 py-1 break-words whitespace-normal">MWh/an</td>
+                <td class="border border-gray-300 px-2 py-1 break-words whitespace-normal"><span id="indicatorI3Display" class="inline-block text-right break-words whitespace-normal"></span></td>
+              </tr>
+              <tr>
+                <td class="border border-gray-300 px-2 py-1 font-semibold break-words whitespace-normal">I.4</td>
+                <td class="border border-gray-300 px-3 py-1 break-words whitespace-normal"><span class="text-justify break-words whitespace-normal">Producția totală de energie regenerabilă pe perioada de referință</span></td>
+                <td class="border border-gray-300 px-2 py-1 break-words whitespace-normal">MWh</td>
+                <td class="border border-gray-300 px-2 py-1 break-words whitespace-normal"><span id="indicatorI4Display" class="inline-block text-right break-words whitespace-normal"></span></td>
+              </tr>
+              <tr>
+                <td class="border border-gray-300 px-2 py-1 font-semibold break-words whitespace-normal">I.5</td>
+                <td class="border border-gray-300 px-3 py-1 break-words whitespace-normal"><span class="text-justify break-words whitespace-normal">Ponderea estimată pentru autoconsum din producția totală<span class="text-red-500">*</span></span></td>
+                <td class="border border-gray-300 px-2 py-1 break-words whitespace-normal">%</td>
+                <td class="border border-gray-300 px-2 py-1 break-words whitespace-normal"><span id="indicatorI5Display" class="inline-block text-right break-words whitespace-normal"></span></td>
+              </tr>
+              <tr>
+                <td class="border border-gray-300 px-2 py-1 font-semibold break-words whitespace-normal">I.6</td>
+                <td class="border border-gray-300 px-3 py-1 break-words whitespace-normal"><span class="text-justify break-words whitespace-normal">Factorul de capacitate al instalației</span></td>
+                <td class="border border-gray-300 px-2 py-1 break-words whitespace-normal">%</td>
+                <td class="border border-gray-300 px-2 py-1 break-words whitespace-normal"><span id="indicatorI6Display" class="inline-block text-right break-words whitespace-normal"></span></td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+          <p class="text-xs text-gray-600 mt-2 max-w-4xl mx-auto">(*) Consumul propriu trebuie să reprezinte minimum 70% din producția capacității finanțate.</p>
+        </div>
+        <!-- Bugetul proiectului -->
+        <div class="p-4 bg-white rounded-lg border border-gray-200 shadow flex flex-col h-full">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4">Bugetul proiectului</h3>
+          <div class="space-y-2 text-sm text-gray-800">
+            <div class="overflow-x-auto">
+              <table class="w-full border-collapse border border-gray-300 rounded-lg">
+                <thead>
+                  <tr class="bg-gray-100">
+                    <th class="border border-gray-300 p-2 text-left font-semibold">Nr. Crt.</th>
+                    <th class="border border-gray-300 p-2 text-left font-semibold">Surse de finanţare</th>
+                    <th class="border border-gray-300 p-2 text-left font-semibold">Valoare (RON)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="border border-gray-300 p-2 font-semibold">I</td>
+                    <td class="border border-gray-300 p-2">COST ESTIMAT TOTAL FOTOVOLTAIC + STOCARE (RON)</td>
+                    <td id="budgetTotalCostRonDisplay" class="border border-gray-300 p-2 font-semibold text-right"></td>
+                  </tr>
+                  <tr>
+                    <td class="border border-gray-300 p-2 font-semibold">II</td>
+                    <td class="border border-gray-300 p-2">Valoarea neeligibilă a investiţiei (Sistemul de stocare)</td>
+                    <td id="budgetNonEligibleCostDisplay" class="border border-gray-300 p-2 font-semibold text-right"></td>
+                  </tr>
+                  <tr>
+                    <td class="border border-gray-300 p-2 font-semibold">III</td>
+                    <td class="border border-gray-300 p-2">Valoarea eligibilă a investiţiei (Sistemul fotovoltaic)</td>
+                    <td id="budgetEligibleCostDisplay" class="border border-gray-300 p-2 font-semibold text-right"></td>
+                  </tr>
+                  <tr>
+                    <td class="border border-gray-300 p-2 font-semibold">1</td>
+                    <td class="border border-gray-300 p-2">Valoarea ajutorului de stat solicitat</td>
+                    <td id="budgetStateAidRonDisplay" class="border border-gray-300 p-2 font-semibold text-right"></td>
+                  </tr>
+                  <tr>
+                    <td class="border border-gray-300 p-2 font-semibold">2</td>
+                    <td class="border border-gray-300 p-2">Contribuţia proprie a solicitantului (2=I-1)</td>
+                    <td id="budgetOwnContributionDisplay" class="border border-gray-300 p-2 font-semibold text-right"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- AMORTIZARE INVESTIȚIE (ANI) - moved section -->
+            <div class="mt-10 max-w-md mx-auto bg-white rounded-lg shadow p-6">
+              <div class="flex justify-between items-center">
+                <h3 class="text-xl font-semibold text-green-700">Amortizare investiție (ani)</h3>
+                <span id="amortizationDisplay" class="text-4xl font-bold text-gray-900 whitespace-nowrap"></span>
+              </div>
+            </div>
+            <!-- Notă importantă - moved section -->
+            
+          </div>
+        </div>
+      </div>
+      <div class="max-w-6xl mx-auto mt-4 px-6 text-gray-700 text-sm italic text-justify">
+              <strong>Notă importantă:</strong> Bugetul prezentat se referă strict la componenta sistemului fotovoltaic și a stocării energiei și nu acoperă eventuale costuri suplimentare, care trebuie luate în considerare în planificarea financiară completă a proiectului.
+              <br />
+              Proiectul complet va include si cheltuieli neeligibile dar obligatorii conform ghidului, dar poate include și alte cheltuieli necesare pentru finalizarea implementării, cum ar fi eventuale lucrări aferente avizului tehnic de racordare (ATR), servicii de consultanță, taxe și alte costuri administrative.  Aceste cheltuieli suplimentare sunt direct dependente de solicitant și de particularitățile proiectului său si nu toate sunt eligibile.
+            </div>
+    </div>
+    
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+
+        <section id="resurse" class="py-4 md:py-4 bg-slate-100 rounded-xl">
+            <h2 class="section-title">Resurse Utile și Clarificări</h2>
+            <p class="section-subtitle">
+                Găsiți răspunsuri la întrebări frecvente și informații suplimentare pentru a vă ghida în procesul de aplicare.
+            </p>
+            <div class="max-w-3xl mx-auto space-y-4">
+              <div class="faq-item border rounded-md mb-2 overflow-hidden transition-all duration-300">
+                <button class="collapsible-trigger-faq w-full text-left px-4 py-3 bg-gray-100 hover:bg-gray-200 focus:outline-none flex justify-between items-center">
+                  <span class="font-medium text-gray-800">Ce înseamnă "efect stimulativ" și de ce este important?</span>
+                  <svg class="w-4 h-4 transform transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                  </svg>
+                </button>
+                <div class="collapsible-content max-h-0 overflow-hidden p-0 border border-t-0 border-slate-200 rounded-b-md">
+                  <ul class="list-disc list-inside text-slate-600 space-y-1 p-4">
+                    <li>Efectul stimulativ reprezintă obligația ca orice proiect finanțat să nu fi fost demarat înainte de depunerea cererii de finanțare. Practic, lucrările, achizițiile și contractele relevante trebuie să înceapă doar după ce ați transmis oficial cererea în platforma MySMIS2021.</li>
+                    <li>Este important pentru că nerespectarea acestei condiții duce la neeligibilitatea proiectului. Se urmărește ca sprijinul financiar să fie un factor decisiv pentru realizarea investiției, nu doar o subvenționare a unor cheltuieli deja angajate.</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="faq-item border rounded-md mb-2 overflow-hidden transition-all duration-300">
+                <button class="collapsible-trigger-faq w-full text-left px-4 py-3 bg-gray-100 hover:bg-gray-200 focus:outline-none flex justify-between items-center">
+                  <span class="font-medium text-gray-800">Pot include costuri pentru stocarea energiei în proiect?</span>
+                  <svg class="w-4 h-4 transform transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                  </svg>
+                </button>
+                <div class="collapsible-content max-h-0 overflow-hidden p-0 border border-t-0 border-slate-200 rounded-b-md">
+                  <ul class="list-disc list-inside text-slate-600 space-y-1 p-4">
+                    <li>Da, proiectele pot include sisteme de stocare a energiei, însă costurile aferente acestora <strong>nu sunt eligibile</strong> pentru finanțare nerambursabilă, dar aduc 10 puncte la proiect.</li>
+                    <li>Cheltuielile cu stocarea trebuie suportate integral de beneficiar, dar includerea stocării poate aduce punctaj suplimentar la evaluare.</li>
+                    <li>Se recomandă dimensionarea corectă a sistemului de stocare pentru a maximiza autoconsumul și eficiența investiției.</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="faq-item border rounded-md mb-2 overflow-hidden transition-all duration-300">
+                <button class="collapsible-trigger-faq w-full text-left px-4 py-3 bg-gray-100 hover:bg-gray-200 focus:outline-none flex justify-between items-center">
+                  <span class="font-medium text-gray-800">Care este termenul limită de depunere a proiectelor?</span>
+                  <svg class="w-4 h-4 transform transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                  </svg>
+                </button>
+                <div class="collapsible-content max-h-0 overflow-hidden p-0 border border-t-0 border-slate-200 rounded-b-md">
+                  <ul class="list-disc list-inside text-slate-600 space-y-1 p-4">
+                    <li>Termenul limită pentru depunerea proiectelor în cadrul apelului actual este <strong>22 august 2025</strong>.</li>
+                    <li>Este recomandat să pregătiți documentația din timp, deoarece procesul de elaborare a studiilor, auditului și a dosarului poate dura câteva săptămâni.</li>
+                    <li>Depunerea se face exclusiv online prin platforma MySMIS2021.</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="faq-item border rounded-md mb-2 overflow-hidden transition-all duration-300">
+                <button class="collapsible-trigger-faq w-full text-left px-4 py-3 bg-gray-100 hover:bg-gray-200 focus:outline-none flex justify-between items-center">
+                  <span class="font-medium text-gray-800">Unde găsesc ghidul complet și anexele programului?</span>
+                  <svg class="w-4 h-4 transform transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                  </svg>
+                </button>
+                <div class="collapsible-content max-h-0 overflow-hidden p-0 border border-t-0 border-slate-200 rounded-b-md">
+                  <ul class="list-disc list-inside text-slate-600 space-y-1 p-4">
+                    <li>Ghidul complet al solicitantului, anexele și toate clarificările oficiale pot fi consultate pe site-ul <a href="https://energie.gov.ro/anunt-privind-lansarea-celui-de-al-ii-lea-apel-bazat-pe-procedura-de-ofertare-concurentiala-sprijinirea-investitiilor-in-noi-capacitati-de-producere-a-energiei-electrice-produsa-din-surse-regenerabil/" target="_blank" rel="noopener noreferrer" class="text-blue-700 hover:underline">Ministerului Energiei</a> la secțiunea dedicată Fondului pentru Modernizare.</li>
+                    <li>Recomandăm să verificați periodic pagina oficială pentru actualizări și răspunsuri la întrebări frecvente.</li>
+                    <li>Anumite anexe și modele de documente sunt disponibile direct în platforma MySMIS2021, la secțiunea apelului curent.</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="faq-item border rounded-md mb-2 overflow-hidden transition-all duration-300">
+                <button class="collapsible-trigger-faq w-full text-left px-4 py-3 bg-gray-100 hover:bg-gray-200 focus:outline-none flex justify-between items-center">
+                  <span class="font-medium text-gray-800">Cine poate elabora Studiul de Fezabilitate și Auditul Energetic?</span>
+                  <svg class="w-4 h-4 transform transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                  </svg>
+                </button>
+                <div class="collapsible-content max-h-0 overflow-hidden p-0 border border-t-0 border-slate-200 rounded-b-md">
+                  <ul class="list-disc list-inside text-slate-600 space-y-1 p-4">
+                    <li>Studiul de Fezabilitate și Auditul Energetic trebuie elaborate de persoane juridice sau fizice <strong>autorizate ANRE</strong> pentru acest tip de lucrări.</li>
+                    <li>Este obligatoriu ca prestatorul să dețină atestat ANRE valabil pentru elaborarea studiilor și auditurilor în domeniul energiei electrice.</li>
+                    <li>Noi, în calitate de societate autorizată ANRE, asigurăm întregul pachet de documentație tehnico-economică necesară pentru depunerea proiectului.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <p class="text-center text-slate-600 mt-10">
+                Pentru informații complete și actualizate, vă recomandăm să consultați întotdeauna <strong class="text-teal-700">Ghidul Solicitantului</strong> și anunțurile oficiale publicate de Ministerul Energiei.
+                <br />
+                <a href="/FM_Ghid Autoconsum.pdf" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 bg-emerald-600 text-white font-semibold py-2 px-6 rounded-md shadow hover:bg-emerald-700 transition">
+                  📄 Descarcă Ghidul Solicitantului (PDF)
+                </a>
+            </p>
+        </section>
+
+    <!-- Modal: Analiză Eligibilitate -->
+    <div id="eligibilityModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex justify-center items-start pt-10 px-4 overflow-y-auto">      
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl relative max-h-[90vh] overflow-y-auto">
+    <button onclick="document.getElementById('eligibilityModal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-700 bg-gray-200 hover:bg-gray-300 rounded-full w-8 h-8 flex items-center justify-center text-xl font-bold z-10">
+  &times; </button>        
+        <h3 class="text-xl font-semibold text-teal-700 mb-4">Analiză Eligibilitate</h3>
+        <p class="text-sm text-slate-600 mb-4">🔍 Evaluare GRATUITĂ a eligibilității companiei tale</p>
+        <form id="eligibilityForm" enctype="multipart/form-data">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <input type="text" name="Nume" placeholder="Nume" class="border p-2 rounded w-full" required />
+            <input type="email" name="Email" placeholder="Email" class="border p-2 rounded w-full" required />
+            <input type="text" name="Telefon" placeholder="Telefon" class="border p-2 rounded w-full" required />
+            <input type="text" name="Companie" placeholder="Companie" class="border p-2 rounded w-full" required />
+            <input type="text" name="CUI" placeholder="CUI" class="border p-2 rounded w-full" required />
+
+            <div class="sm:col-span-2">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Program finanțare formular</label>
+              <select name="ProgramFinantare" class="border p-2 rounded w-full">
+                <option>Fondul pentru Modernizare - Autoconsum</option>
+                <option>Electric Up 2</option>
+              </select>
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Societatea înregistrează profit net în ultimul an?</label>
+              <select name="ProfitNet2024" class="border p-2 rounded w-full">
+                <option>Da</option>
+                <option>Nu</option>
+              </select>
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Încarcă Bilanț 2024 <span class="text-xs text-gray-400">(max. 10MB)</span></label>
+              <input type="file" name="Bilant2024" class="border p-2 rounded w-full" />
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Încarcă Certificat Constatator (max. 30 zile vechime, de pe ONRC)</label>
+              <input type="file" name="CertificatONRC" class="border p-2 rounded w-full" />
+            </div>
+          </div>
+
+          <textarea name="ObiectAchizitie" rows="2" placeholder="Care obiectul achiziției dorite și un buget estimativ?" class="border p-2 rounded w-full mt-4"></textarea>
+          <textarea name="LocatieImplementare" rows="2" placeholder="Care este locația exactă de implementare (sat/comună/oraș)" class="border p-2 rounded w-full mt-4"></textarea>
+
+<div class="flex justify-between items-center mb-1">
+  <label class="block text-sm font-medium text-gray-700">Disponibilitate de cofinanțare (%)</label>
+  <span id="cofinantareValue" class="text-sm font-semibold text-gray-800">50%</span>
+</div>
+<input
+  type="range"
+  name="Cofinantare"
+  min="1"
+  max="99"
+  value="50"
+  class="custom-slider w-full"
+  oninput="document.getElementById('cofinantareValue').textContent = this.value + '%'"
+/>
+
+          <label class="inline-flex items-center mt-4">
+            <input type="checkbox" name="AcordGDPR" class="form-checkbox text-green-600" required />
+            <span class="ml-2 text-sm text-gray-600">
+              Sunt de acord cu prelucrarea datelor cu caracter personal
+              <a href="/politica-confidentialitate.html" target="_blank" class="text-emerald-600 hover:underline">(vezi politica)</a>
+            </span>
+          </label>
+
+          <div class="text-right mt-4">
+            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded shadow">Trimite</button>
+          </div>
+
+          <div id="successMessage" class="hidden text-green-600 text-sm mt-4 text-center font-medium">
+            ✅ Formularul a fost trimis cu succes!
+          </div>
+        </form>
+      </div>
+    </div>
+
+    </main>
+
+    <footer id="contact-form" class="bg-slate-800 text-slate-300 py-12 md:py-16 mt-12 md:mt-16">
+</main>
+
+    <!-- Modal logic loader -->
+    
+        <div class="container mx-auto px-4 text-center">
+            <h3 class="text-3xl md:text-4xl font-bold text-white mb-2 leading-tight text-center">📞 Hai să discutăm despre proiectul tău verde!</h3>
+<p class="text-slate-300 text-lg mb-2 max-w-3xl mx-auto text-center">
+  Suntem <strong class="text-emerald-400">autorizați ANRE</strong> și îți oferim consultanță completă – de la <em>studiul de fezabilitate</em> și <em>dosarul complet</em>, până la <em>implementarea la cheie</em> a sistemului fotovoltaic.</br><a href="mailto:office@apexor.ro" className="text-blue-700 hover:underline hover:text-blue-900 transition">E-mail: office@apexor.ro</a>
+</p>
+
+<div class="flex justify-center items-center mb-4">
+  <img src="/apexor-logo-wh.png" alt="Apexor Logo" class="h-16 opacity-75 hover:opacity-100 transition-opacity duration-300">
+</div>
+    <button class="openEligibilityModal inline-block bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 px-8 rounded-lg text-lg transition duration-300 shadow-md hover:shadow-lg">
+    Contactează-ne pentru analiză eligibilitate
+    </button>
+    
+</div>
+    </footer>
+
+    <script type="module" src="./calculator.js" defer></script> 
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const cofinSlider = document.querySelector('input[type="range"][min="1"][max="80"]');
+        const cofinValue = document.getElementById('cofinantareValue');
+        if (cofinSlider && cofinValue) {
+          cofinValue.innerText = cofinSlider.value + '%';
+          cofinSlider.addEventListener('input', () => {
+            cofinValue.innerText = cofinSlider.value + '%';
+          });
+        }
+      });
+    </script>
+    <script>
+      document.querySelectorAll('.collapsible-trigger-faq').forEach(button => {
+        button.addEventListener('click', () => {
+          const faqItem = button.closest('.faq-item');
+          const content = faqItem.querySelector('.collapsible-content');
+          const arrow = button.querySelector('svg');
+
+          const isOpen = faqItem.classList.contains('open');
+
+          // Close all others
+          document.querySelectorAll('.faq-item').forEach(item => {
+            item.classList.remove('open');
+            item.querySelector('.collapsible-content').style.maxHeight = null;
+            item.querySelector('svg').classList.remove('rotate-180');
+          });
+
+          // Open current if it was not already open
+          if (!isOpen) {
+            faqItem.classList.add('open');
+            content.style.maxHeight = content.scrollHeight + 'px';
+            arrow.classList.add('rotate-180');
+          }
+        });
+      });
+    </script>
+
+    <script>
+      document.querySelectorAll('.collapsible-trigger-eligibilitate').forEach(button => {
+        button.addEventListener('click', () => {
+          const card = button.closest('.eligibilitate-item');
+          const content = button.nextElementSibling;
+          const arrow = button.querySelector('svg');
+
+          const isOpen = card.classList.contains('open');
+
+          if (isOpen) {
+            content.style.maxHeight = null;
+            arrow.classList.remove('rotate-180');
+            card.classList.remove('open');
+          } else {
+            card.classList.add('open');
+            content.style.maxHeight = content.scrollHeight + 'px';
+            arrow.classList.add('rotate-180');
+          }
+        });
+      });
+    </script>
+
+    <script>
+    // Chart.js ROI Chart initialization for static sample data (if not already handled in calculator.js)
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Chart && document.getElementById('roiChart')) {
+        const roiCtx = document.getElementById('roiChart').getContext('2d');
+        if (!window.roiChart) { // Prevent duplicate charts
+          window.roiChart = new Chart(roiCtx, {
+            type: 'bar',
+            data: {
+              labels: ['Autoconsum', 'Injectat'],
+              datasets: [{
+                label: 'kWh',
+                data: [82500, 27500],
+                backgroundColor: ['#059669', '#3b82f6'],
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: false }
+              },
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+        }
+      }
+    });
+    </script>
+
+    <style>
+      .rotate-180 {
+        transform: rotate(180deg);
+      }
+
+      .collapsible-content {
+        transition: max-height 0.3s ease-in-out;
+      }
+    </style>
+    <script>
+    // Script inline pentru funcționalități generale ale paginii (navigație, an curent, etc.)
+    // Chart.js and plugins are globally available via CDN.
+
+    // Smooth scroll and active nav link
+    const navLinks = document.querySelectorAll('header nav a[href^="#"]');
+    const mobileNavLinks = document.querySelectorAll('#mobile-menu a[href^="#"]');
+    // (You may want to add more JS here or close the script tag properly)
+    </script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('eligibilityModal');
+    const openButtons = document.querySelectorAll('.openEligibilityModal');
+
+    if (modal && openButtons.length > 0) {
+      openButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          modal.classList.remove('hidden');
+        });
+      });
+    }
+  });
+</script>
+    <!-- JavaScript pentru trimitere AJAX a formularului de eligibilitate -->
+    <script>
+      const form = document.getElementById('eligibilityForm');
+      const successMessage = document.getElementById('successMessage');
+
+      form.addEventListener('submit', async function (event) {
+        event.preventDefault();
+        const formData = new FormData(form);
+
+        try {
+          const response = await fetch("http://localhost:5050/send", {
+            method: 'POST',
+            body: formData
+          });
+
+          if (response.ok) {
+            successMessage.classList.remove('hidden');
+            successMessage.textContent = '✅ Formularul a fost trimis cu succes!';
+            form.reset();
+          } else {
+            successMessage.classList.remove('hidden');
+            successMessage.textContent = '❌ A apărut o eroare la trimitere.';
+          }
+        } catch (error) {
+          successMessage.classList.remove('hidden');
+          successMessage.textContent = '❌ Trimiterea a eșuat. Verifică conexiunea cu serverul.';
+          console.error('Eroare la trimitere:', error);
+        }
+      });
+    </script>
+</footer>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "APEXOR",
+  "url": "https://fonduldemodernizare.ro",
+  "logo": "https://fonduldemodernizare.ro/apexor-logo.png",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "e-mail": "office@apexor.ro",
+    "contactType": "customer support",
+    "areaServed": "RO",
+    "availableLanguage": "Romanian"
+  }
+}
+</script>
+</body>
+<script>
+  async function handleSubmit(event) {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch("http://localhost:5050/send", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        form.reset();
+        document.getElementById("successMessage").classList.remove("hidden");
+      } else {
+        alert("Eroare la trimiterea formularului.");
+      }
+    } catch (error) {
+      console.error("Eroare:", error);
+      alert("A apărut o eroare la trimitere.");
+    }
+  }
+</script>
+</html>

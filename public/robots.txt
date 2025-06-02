@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://fonduldemodernizare.ro/sitemap.xml

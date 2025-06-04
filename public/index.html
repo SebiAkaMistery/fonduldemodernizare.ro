@@ -189,66 +189,60 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <section id="hero" class="relative w-full min-h-[500px] md:min-h-[600px] flex items-center justify-center rounded-xl shadow-lg mb-12 md:mb-16 overflow-hidden">
         <picture class="absolute inset-0 w-full h-full z-0">
+          <source srcset="/banner-pv.webp" type="image/webp" media="(min-width: 768px)" />
+          <source srcset="/banner-pv-mobile.webp" type="image/webp" media="(max-width: 767px)" />
           <img src="/banner-pv.webp" alt="Banner Fotovoltaic" class="w-full h-full object-cover" loading="eager" />
         </picture>
         <div class="absolute inset-0 bg-black/60 z-10 rounded-xl"></div>
         <div class="relative z-20 text-white max-w-4xl px-6 text-center w-full">
-          <!-- conținut existent -->
+          <h1 class="text-4xl md:text-6xl font-bold mb-6">
+            Fondul pentru Modernizare
+          </h1>
+          <p class="text-lg md:text-xl">
+            Sprijin pentru investiții verzi, autoconsum și eficiență energetică
+          </p>
+          <div class="mb-8 max-w-md mx-auto mt-8">
+            <div class="deadline-banner text-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block mr-2 -mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <strong>TERMEN LIMITĂ DEPUNERE PROIECTE: <br><span class="underline"><p id="deadline-eta-paragraph" class="text-sm">
+              Termen limită: 22 August 2025
+            </p></span></strong>
+            
+              <script>
+              const today = new Date();
+              const deadline = new Date("2025-08-22");
+              const etaMs = deadline - today;
+              const roundedDays = Math.ceil(etaMs / (1000 * 60 * 60 * 24));
+              window.addEventListener('DOMContentLoaded', function() {
+                var etaP = document.getElementById('deadline-eta-paragraph');
+                if (etaP) {
+                  etaP.innerHTML = 'Termen limită: 22 August 2025 <span class="text-slate-700">(ETA: aproximativ ' + roundedDays + ' zile)</span>';
+                }
+              });
+            </script>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 max-w-4xl mx-auto mt-8">
+            <div class="stat-card">
+              <div class="stat-value">100%</div>
+              <div class="stat-label">Finanțare Eligibilă</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">20 MIL. €</div>
+              <div class="stat-label">Max. / Proiect</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">≥70%</div>
+              <div class="stat-label">Autoconsum Minim</div>
+            </div>
+          </div>
+          <p class="mt-8 text-md text-slate-200 max-w-2xl mx-auto">
+            Beneficiați de sprijin nerambursabil și expertiza noastră <strong class="text-emerald-400">autorizată ANRE</strong> pentru a vă reduce costurile energetice și a crește sustenabilitatea afacerii.
+          </p>
         </div>
       </section>
-          <div class="absolute inset-0 bg-black/60 rounded-xl"></div>
-          <div class="relative z-10 max-w-4xl px-6 text-center text-white w-full">
-            <h1 class="text-4xl md:text-6xl font-bold mb-6">
-              Fondul pentru Modernizare
-            </h1>
-            <p class="text-lg md:text-xl">
-              Sprijin pentru investiții verzi, autoconsum și eficiență energetică
-            </p>
-            <div class="mb-8 max-w-md mx-auto mt-8">
-              <div class="deadline-banner text-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block mr-2 -mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <strong>TERMEN LIMITĂ DEPUNERE PROIECTE: <br><span class="underline"><p id="deadline-eta-paragraph" class="text-sm">
-                Termen limită: 22 August 2025
-              </p></span></strong>
-              
-                <script>
-                // ETA logic for deadline 27 iunie 2025
-                const today = new Date();
-                const deadline = new Date("2025-08-22");
-                const etaMs = deadline - today;
-                const roundedDays = Math.ceil(etaMs / (1000 * 60 * 60 * 24));
-                // Insert ETA into the next paragraph after rendering
-                window.addEventListener('DOMContentLoaded', function() {
-                  var etaP = document.getElementById('deadline-eta-paragraph');
-                  if (etaP) {
-                    etaP.innerHTML = 'Termen limită: 22 August 2025 <span class="text-slate-700">(ETA: aproximativ ' + roundedDays + ' zile)</span>';
-                  }
-                });
-              </script>
-              </div>
-              
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 max-w-4xl mx-auto mt-8">
-              <div class="stat-card">
-                <div class="stat-value">100%</div>
-                <div class="stat-label">Finanțare Eligibilă</div>
-              </div>
-              <div class="stat-card">
-                <div class="stat-value">20 MIL. €</div>
-                <div class="stat-label">Max. / Proiect</div>
-              </div>
-              <div class="stat-card">
-                <div class="stat-value">≥70%</div>
-                <div class="stat-label">Autoconsum Minim</div>
-              </div>
-            </div>
-            <p class="mt-8 text-md text-slate-200 max-w-2xl mx-auto">
-              Beneficiați de sprijin nerambursabil și expertiza noastră <strong class="text-emerald-400">autorizată ANRE</strong> pentru a vă reduce costurile energetice și a crește sustenabilitatea afacerii.
-            </p>
-          </div>
-        </section>
 
         <section id="despre" class="py-12 md:py-0">
             <h2 class="section-title">Ce Este Fondul pentru Modernizare - Autoconsum?</h2>

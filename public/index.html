@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <!-- Cookiebot (Consent Mode v2) -->
-    <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="629cfd97-fee4-4c53-a659-9f9fc5f111d2" data-blockingmode="auto" type="text/javascript"></script>
+    <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="..." data-blockingmode="auto" type="text/javascript" defer></script>
     <!-- End Cookiebot -->
     <!-- Google Tag Manager -->
     <script>
@@ -50,7 +50,7 @@
     <!-- Preload logo for faster rendering -->
     <link rel="preload" as="image" href="/apexor-logo.png" type="image/png">
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/main.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 
@@ -62,13 +62,6 @@
         }
         body.loaded * {
           opacity: 1;
-        }
-        html.loading body {
-          visibility: hidden;
-          min-height: 100vh;
-        }
-        html.loaded body {
-          visibility: visible;
         }
         .hero-bg { background-color: #f0f9ff; /* sky-50 */ }
         .nav-link.active { color: #0d9488; /* teal-600 */ border-bottom-color: #0d9488; font-weight: 600; }
@@ -161,7 +154,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <a href="#hero" class="flex items-center space-x-2">
                     <picture>
                       <source srcset="/apexor-logo.png" type="image/png">
-                      <img src="/Apexor_logo_wide_transp.png" alt="Apexor Logo" class="w-auto h-12">
+                      <img src="/Apexor_logo_wide_transp.png" alt="Apexor Logo" width="180" height="48" class="w-auto h-12">
                     </picture>
                 </a>
                 <div class="hidden md:flex space-x-1 lg:space-x-2 text-sm">

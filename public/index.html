@@ -1192,13 +1192,7 @@
             <div>
               <button type="submit" class="bg-emerald-600 text-white px-6 py-2 rounded hover:bg-emerald-700 transition">Trimite</button>
             </div>
-            <!-- Mesaje de feedback -->
-            <div id="successMessage" class="hidden text-green-600 text-sm mt-4 text-center font-medium">
-              ✅ Formularul a fost trimis cu succes!
-            </div>
-            <div id="errorMessage" class="hidden text-red-600 text-sm mt-4 text-center font-medium">
-              ❌ A apărut o eroare la trimitere. Te rugăm să încerci din nou.
-            </div>
+            <div id="formMessage" class="hidden text-sm mt-4 text-center font-medium"></div>
           </div>
         </form>
       </div>
@@ -1360,33 +1354,39 @@
 </script>
     <!-- JavaScript pentru trimitere AJAX a formularului de eligibilitate -->
     <script>
-      const form = document.getElementById('eligibilityForm');
-      const successMessage = document.getElementById('successMessage');
+    // Formular Analiză Eligibilitate - AJAX submit cu feedback modernizat
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.querySelector('#eligibilityModal form');
+      const messageEl = document.getElementById('formMessage');
 
-      form.addEventListener('submit', async function (event) {
-        event.preventDefault();
-        const formData = new FormData(form);
+      if (form) {
+        form.addEventListener('submit', async function (e) {
+          e.preventDefault();
 
-        try {
-          const response = await fetch("/api/send", {
-            method: 'POST',
-            body: formData
-          });
+          const formData = new FormData(form);
 
-          if (response.ok) {
-            successMessage.classList.remove('hidden');
-            successMessage.textContent = '✅ Formularul a fost trimis cu succes!';
-            form.reset();
-          } else {
-            successMessage.classList.remove('hidden');
-            successMessage.textContent = '❌ A apărut o eroare la trimitere.';
+          try {
+            const response = await fetch(form.action, {
+              method: form.method,
+              body: formData,
+            });
+
+            if (response.ok) {
+              messageEl.textContent = '✅ Formularul a fost trimis cu succes!';
+              messageEl.classList.remove('hidden', 'text-red-600');
+              messageEl.classList.add('text-green-600');
+              form.reset();
+            } else {
+              throw new Error('Eroare la trimitere');
+            }
+          } catch (err) {
+            messageEl.textContent = '❌ A apărut o eroare la trimitere. Te rugăm să încerci din nou.';
+            messageEl.classList.remove('hidden', 'text-green-600');
+            messageEl.classList.add('text-red-600');
           }
-        } catch (error) {
-          successMessage.classList.remove('hidden');
-          successMessage.textContent = '❌ Trimiterea a eșuat. Verifică conexiunea cu serverul.';
-          console.error('Eroare la trimitere:', error);
-        }
-      });
+        });
+      }
+    });
     </script>
 </footer>
 <script type="application/ld+json">

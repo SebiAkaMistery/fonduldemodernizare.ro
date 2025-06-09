@@ -1134,15 +1134,15 @@
         </section>
 
     <!-- Modal: Analiză Eligibilitate -->
-
-    <div id="eligibilityModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex justify-center items-start pt-10 px-4 overflow-y-auto">      
-      <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl relative max-h-[90vh] overflow-y-auto">
+    <div id="eligibilityModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex justify-center items-start pt-10 px-4 overflow-y-auto">
+      <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-3xl relative max-h-[90vh] overflow-y-auto">
         <button onclick="document.getElementById('eligibilityModal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-700 bg-gray-200 hover:bg-gray-300 rounded-full w-8 h-8 flex items-center justify-center text-xl font-bold z-10">
           &times;
         </button>
-        <h3 class="text-xl font-semibold text-teal-700 mb-4">Analiză Eligibilitate</h3>
+        <h3 class="text-xl font-semibold text-teal-700 mb-2">Analiză Eligibilitate</h3>
         <p class="text-sm text-slate-700 mb-4">🔍 Evaluare GRATUITĂ a eligibilității companiei tale</p>
-        <form action="/api/send" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 gap-6" id="eligibilityForm">
+
+        <form action="/api/send" method="POST" enctype="multipart/form-data" class="space-y-6" id="eligibilityForm">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <input type="text" name="nume" placeholder="Nume" required class="border border-gray-300 rounded px-3 py-2" />
             <input type="email" name="email" placeholder="Email" required class="border border-gray-300 rounded px-3 py-2" />
@@ -1151,47 +1151,50 @@
             <input type="text" name="cui" placeholder="CUI" class="border border-gray-300 rounded px-3 py-2" />
           </div>
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
-  <div>
-    <label class="block text-sm font-medium mb-1">Societatea înregistrează profit net în ultimul an?</label>
-    <select name="profit" class="border border-gray-300 rounded px-3 py-2 w-full">
-      <option value="da">Da</option>
-      <option value="nu">Nu</option>
-    </select>
-  </div>
-
-  <div>
-    <label for="cofinantare" class="block text-sm font-medium mb-1">Disponibilitate de cofinanțare (%)</label>
-    <div class="flex items-center gap-2">
-      <button type="button" onclick="document.getElementById('cofinantareInput').stepDown()" class="px-2 py-1 bg-gray-200 rounded">−</button>
-      <input id="cofinantareInput" name="cofinantare" type="number" min="0" max="100" value="50" class="border border-gray-300 rounded px-3 py-2 w-full text-center" />
-      <button type="button" onclick="document.getElementById('cofinantareInput').stepUp()" class="px-2 py-1 bg-gray-200 rounded">+</button>
-    </div>
-  </div>
-</div>
-
-            <div class="sm:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 mb-1">Mesajul tău</label>
-              <textarea name="mesaj" rows="3" placeholder="Scrie aici ce dorești să ne transmiți..." class="border p-2 rounded w-full"></textarea>
-            </div>
-
-            <!-- GDPR Checkbox -->
-            <label class="inline-flex items-center mt-4">
-              <input type="checkbox" name="AcordGDPR" class="form-checkbox text-green-600" required />
-              <span class="ml-2 text-sm text-gray-600">
-                Sunt de acord cu prelucrarea datelor cu caracter personal
-                <a href="/politica-confidentialitate.html" target="_blank" class="text-emerald-600 hover:underline">(vezi politica)</a>
-              </span>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+            <label class="text-sm font-medium text-gray-700">Societatea înregistrează profit net în ultimul an?
+              <select name="profit" class="mt-1 border border-gray-300 rounded px-3 py-2 w-full">
+                <option value="da">Da</option>
+                <option value="nu">Nu</option>
+              </select>
             </label>
 
-            <div>
-              <button type="submit" class="bg-emerald-600 text-white px-6 py-2 rounded hover:bg-emerald-700 transition">Trimite</button>
-            </div>
+            <label class="text-sm font-medium text-gray-700 flex items-center justify-between">
+              Disponibilitate de cofinanțare (%)
+              <div class="flex items-center space-x-2 mt-1">
+                <button type="button" onclick="adjustCofinantare(-1)" class="px-3 py-1 bg-gray-200 rounded">-</button>
+                <input type="number" name="cofinantare" id="cofinantareInput" min="0" max="100" value="50" class="w-16 text-center border border-gray-300 rounded px-2 py-1" />
+                <button type="button" onclick="adjustCofinantare(1)" class="px-3 py-1 bg-gray-200 rounded">+</button>
+              </div>
+            </label>
+          </div>
+
+          <div>
+            <textarea name="mesaj" rows="4" placeholder="Mesajul tău" class="border border-gray-300 rounded px-3 py-2 w-full"></textarea>
+          </div>
+
+          <label class="inline-flex items-start gap-2 text-sm text-gray-600">
+            <input type="checkbox" name="AcordGDPR" class="mt-1 form-checkbox text-green-600" required />
+            Sunt de acord cu prelucrarea datelor cu caracter personal
+            <a href="/politica-confidentialitate.html" target="_blank" class="text-emerald-600 hover:underline">(vezi politica)</a>
+          </label>
+
+          <div class="text-right">
+            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded shadow">Trimite</button>
             <div id="formMessage" class="hidden text-sm mt-4 text-center font-medium"></div>
           </div>
         </form>
       </div>
     </div>
+
+    <script>
+      function adjustCofinantare(delta) {
+        const input = document.getElementById('cofinantareInput');
+        let value = parseInt(input.value, 10) || 0;
+        value = Math.min(100, Math.max(0, value + delta));
+        input.value = value;
+      }
+    </script>
 
     </main>
 

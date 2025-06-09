@@ -37,22 +37,6 @@ export default async function handler(req, res) {
       },
     });
 
-    const attachments = [];
-
-    if (files['bilant'] && files['bilant'].filepath) {
-      attachments.push({
-        filename: files['bilant'].originalFilename,
-        path: files['bilant'].filepath,
-      });
-    }
-
-    if (files['constatator'] && files['constatator'].filepath) {
-      attachments.push({
-        filename: files['constatator'].originalFilename,
-        path: files['constatator'].filepath,
-      });
-    }
-
     const htmlBody = Object.entries(fields).map(([key, value]) => {
       return `<p><strong>${key}:</strong> ${value}</p>`;
     }).join('');
@@ -62,7 +46,6 @@ export default async function handler(req, res) {
       to: 'info@fonduldemodernizare.ro',
       subject: 'FM - Formular analiză eligibilitate',
       html: htmlBody,
-      attachments,
     };
 
     try {
@@ -72,12 +55,6 @@ export default async function handler(req, res) {
     } catch (error) {
       console.error('EMAIL ERROR:', error);
       res.status(500).json({ message: 'A apărut o eroare. Încearcă din nou.' });
-    } finally {
-      attachments.forEach(file => {
-        try {
-          fs.unlinkSync(file.path);
-        } catch (_) {}
-      });
     }
   });
 }

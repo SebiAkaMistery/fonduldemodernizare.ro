@@ -1128,76 +1128,51 @@
         </section>
 
     <!-- Modal: Analiză Eligibilitate -->
+
     <div id="eligibilityModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex justify-center items-start pt-10 px-4 overflow-y-auto">      
-    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl relative max-h-[90vh] overflow-y-auto">
-    <button onclick="document.getElementById('eligibilityModal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-700 bg-gray-200 hover:bg-gray-300 rounded-full w-8 h-8 flex items-center justify-center text-xl font-bold z-10">
-  &times; </button>        
+      <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl relative max-h-[90vh] overflow-y-auto">
+        <button onclick="document.getElementById('eligibilityModal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-700 bg-gray-200 hover:bg-gray-300 rounded-full w-8 h-8 flex items-center justify-center text-xl font-bold z-10">
+          &times;
+        </button>
         <h3 class="text-xl font-semibold text-teal-700 mb-4">Analiză Eligibilitate</h3>
         <p class="text-sm text-slate-700 mb-4">🔍 Evaluare GRATUITĂ a eligibilității companiei tale</p>
-        <<form action="/api/send" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-gray-50 p-6 rounded-lg shadow w-full">>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <input type="text" name="Nume" placeholder="Nume" class="border p-2 rounded w-full" required />
-            <input type="email" name="Email" placeholder="Email" class="border p-2 rounded w-full" required />
-            <input type="text" name="Telefon" placeholder="Telefon" class="border p-2 rounded w-full" required />
-            <input type="text" name="Companie" placeholder="Companie" class="border p-2 rounded w-full" required />
-            <input type="text" name="CUI" placeholder="CUI" class="border p-2 rounded w-full" required />
+        <form action="/api/send" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 gap-6" id="eligibilityForm">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input type="text" name="nume" placeholder="Nume" required class="border border-gray-300 rounded px-3 py-2" />
+            <input type="email" name="email" placeholder="Email" required class="border border-gray-300 rounded px-3 py-2" />
+            <input type="text" name="telefon" placeholder="Telefon" class="border border-gray-300 rounded px-3 py-2" />
+            <input type="text" name="companie" placeholder="Companie" class="border border-gray-300 rounded px-3 py-2" />
+            <input type="text" name="cui" placeholder="CUI" class="border border-gray-300 rounded px-3 py-2" />
+          </div>
 
-            <div class="sm:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 mb-1">Program finanțare formular</label>
-              <select name="ProgramFinantare" class="border p-2 rounded w-full">
-                <option>Fondul pentru Modernizare - Autoconsum</option>
-                <option>Electric Up 2</option>
+          <div class="grid grid-cols-1 gap-4">
+            <div>
+              <label class="block text-sm font-medium mb-1">Societatea înregistrează profit net în ultimul an?</label>
+              <select name="profit" class="border border-gray-300 rounded px-3 py-2 w-full">
+                <option value="da">Da</option>
+                <option value="nu">Nu</option>
               </select>
             </div>
 
-            <div class="sm:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 mb-1">Societatea înregistrează profit net în ultimul an?</label>
-              <select name="ProfitNet2024" class="border p-2 rounded w-full">
-                <option>Da</option>
-                <option>Nu</option>
-              </select>
+            <div>
+              <label class="block text-sm font-medium mb-1">Disponibilitate de cofinanțare (%)</label>
+              <input type="range" name="cofinantare" min="0" max="100" value="50" class="w-full" />
             </div>
 
-            <div class="sm:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 mb-1">Încarcă Bilanț 2024 <span class="text-xs text-gray-400">(max. 10MB)</span></label>
-              <input type="file" name="Bilant2024" class="border p-2 rounded w-full" />
+            <div>
+              <label class="block text-sm font-medium mb-1">Încarcă Bilanț 2024 (opțional)</label>
+              <input type="file" name="bilant" accept=".pdf,.doc,.docx,.jpg,.png" class="w-full" />
             </div>
 
-            <div class="sm:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 mb-1">Încarcă Certificat Constatator (max. 30 zile vechime, de pe ONRC)</label>
-              <input type="file" name="CertificatONRC" class="border p-2 rounded w-full" />
+            <div>
+              <label class="block text-sm font-medium mb-1">Încarcă Certificat Constatator (opțional)</label>
+              <input type="file" name="constatator" accept=".pdf,.doc,.docx,.jpg,.png" class="w-full" />
+            </div>
+
+            <div>
+              <button type="submit" class="bg-emerald-600 text-white px-6 py-2 rounded hover:bg-emerald-700 transition">Trimite</button>
             </div>
           </div>
-
-          <textarea name="ObiectAchizitie" rows="2" placeholder="Care obiectul achiziției dorite și un buget estimativ?" class="border p-2 rounded w-full mt-4"></textarea>
-          <textarea name="LocatieImplementare" rows="2" placeholder="Care este locația exactă de implementare (sat/comună/oraș)" class="border p-2 rounded w-full mt-4"></textarea>
-
-<div class="flex justify-between items-center mb-1">
-  <label class="block text-sm font-medium text-gray-700">Disponibilitate de cofinanțare (%)</label>
-  <span id="cofinantareValue" class="text-sm font-semibold text-gray-800">50%</span>
-</div>
-<input
-  type="range"
-  name="Cofinantare"
-  min="1"
-  max="99"
-  value="50"
-  class="custom-slider w-full"
-  oninput="document.getElementById('cofinantareValue').textContent = this.value + '%'"
-/>
-
-          <label class="inline-flex items-center mt-4">
-            <input type="checkbox" name="AcordGDPR" class="form-checkbox text-green-600" required />
-            <span class="ml-2 text-sm text-gray-600">
-              Sunt de acord cu prelucrarea datelor cu caracter personal
-              <a href="/politica-confidentialitate.html" target="_blank" class="text-emerald-600 hover:underline">(vezi politica)</a>
-            </span>
-          </label>
-
-          <div class="text-right mt-4">
-            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded shadow">Trimite</button>
-          </div>
-
           <div id="successMessage" class="hidden text-green-600 text-sm mt-4 text-center font-medium">
             ✅ Formularul a fost trimis cu succes!
           </div>

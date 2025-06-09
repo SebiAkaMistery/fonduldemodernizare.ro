@@ -1,11 +1,18 @@
-const express = require('express');
-const nodemailer = require('nodemailer');
-const { IncomingForm } = require('formidable');
-const fs = require('fs');
-const router = express.Router();
+import { IncomingForm } from 'formidable';
+import nodemailer from 'nodemailer';
+import fs from 'fs';
 
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
-router.post('/', async (req, res) => {
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Method not allowed' });
+  }
+
   const form = new IncomingForm({
     multiples: true,
     uploadDir: '/tmp',
@@ -67,6 +74,4 @@ router.post('/', async (req, res) => {
       });
     }
   });
-});
-
-module.exports = router;
+}

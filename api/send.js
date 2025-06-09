@@ -1,27 +1,18 @@
+const express = require('express');
+const nodemailer = require('nodemailer');
+const { IncomingForm } = require('formidable');
+const fs = require('fs');
+const router = express.Router();
 
 
-import nodemailer from 'nodemailer';
-import { IncomingForm } from 'formidable';
-import fs from 'fs';
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method not allowed' });
-  }
-
-const form = new IncomingForm({
-  multiples: true,
-  uploadDir: '/tmp',
-  keepExtensions: true,
-  allowEmptyFiles: true,
-  minFileSize: 0
-});
+router.post('/', async (req, res) => {
+  const form = new IncomingForm({
+    multiples: true,
+    uploadDir: '/tmp',
+    keepExtensions: true,
+    allowEmptyFiles: true,
+    minFileSize: 0
+  });
 
   form.parse(req, async (err, fields, files) => {
     if (err) {
@@ -76,4 +67,6 @@ const form = new IncomingForm({
       });
     }
   });
-}
+});
+
+module.exports = router;

@@ -2,28 +2,7 @@
 <html lang="ro" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <!-- Cookie Consent by Osano -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
-    <script>
-      window.addEventListener("load", function(){
-        window.cookieconsent.initialise({
-          palette: {
-            popup: { background: "#000" },
-            button: { background: "#f1d600" }
-          },
-          theme: "classic",
-          content: {
-            message: "Acest site folosește cookies pentru a îmbunătăți experiența.",
-            dismiss: "Am înțeles",
-            link: "Află mai multe",
-            href: "/politica-confidentialitate.html"
-          }
-        });
-      });
-    </script>
-    <!-- End Cookie Consent -->
-    <!-- Google Tag Manager -->
+     <!-- Google Tag Manager -->
     <script>
     (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -1392,6 +1371,63 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     "availableLanguage": "Romanian"
   }
 }
+</script>
+<div id="cookie-banner" style="
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #1f2937;
+  color: white;
+  padding: 15px 20px;
+  display: none;
+  z-index: 9999;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+">
+  <span>
+    Folosim cookies pentru a îmbunătăți experiența pe site.
+    <a href="/politica-confidentialitate.html" style="color:#10b981; text-decoration: underline;">Află mai multe</a>
+  </span>
+  <div>
+    <button onclick="acceptCookies()" style="
+      background-color: #10b981;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 10px;
+    ">Am înțeles</button>
+    <button onclick="dismissCookieBanner()" style="
+      background: none;
+      border: none;
+      color: #d1d5db;
+      font-size: 20px;
+      line-height: 20px;
+      cursor: pointer;
+    ">&times;</button>
+  </div>
+</div>
+
+<script>
+  function acceptCookies() {
+    localStorage.setItem('cookiesAccepted', 'true');
+    document.getElementById('cookie-banner').style.display = 'none';
+  }
+
+  function dismissCookieBanner() {
+    document.getElementById('cookie-banner').style.display = 'none';
+  }
+
+  window.addEventListener('load', function () {
+    if (!localStorage.getItem('cookiesAccepted')) {
+      document.getElementById('cookie-banner').style.display = 'flex';
+    }
+  });
 </script>
 </body>
 <script>

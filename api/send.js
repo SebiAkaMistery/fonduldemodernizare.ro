@@ -38,12 +38,18 @@ export default async function handler(req, res) {
     });
 
     const attachments = [];
-    if (files && Object.values(files).length > 0) {
-      Object.values(files).forEach(file => {
-        attachments.push({
-          filename: file.originalFilename,
-          path: file.filepath,
-        });
+
+    if (files['bilant'] && files['bilant'].filepath) {
+      attachments.push({
+        filename: files['bilant'].originalFilename,
+        path: files['bilant'].filepath,
+      });
+    }
+
+    if (files['constatator'] && files['constatator'].filepath) {
+      attachments.push({
+        filename: files['constatator'].originalFilename,
+        path: files['constatator'].filepath,
       });
     }
 

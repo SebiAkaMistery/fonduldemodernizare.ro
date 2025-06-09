@@ -1180,12 +1180,25 @@
               <input type="file" name="constatator" accept=".pdf,.doc,.docx,.jpg,.png" class="w-full" />
             </div>
 
+            <!-- GDPR Checkbox -->
+            <label class="inline-flex items-center mt-4">
+              <input type="checkbox" name="AcordGDPR" class="form-checkbox text-green-600" required />
+              <span class="ml-2 text-sm text-gray-600">
+                Sunt de acord cu prelucrarea datelor cu caracter personal
+                <a href="/politica-confidentialitate.html" target="_blank" class="text-emerald-600 hover:underline">(vezi politica)</a>
+              </span>
+            </label>
+
             <div>
               <button type="submit" class="bg-emerald-600 text-white px-6 py-2 rounded hover:bg-emerald-700 transition">Trimite</button>
             </div>
-          </div>
-          <div id="successMessage" class="hidden text-green-600 text-sm mt-4 text-center font-medium">
-            ✅ Formularul a fost trimis cu succes!
+            <!-- Mesaje de feedback -->
+            <div id="successMessage" class="hidden text-green-600 text-sm mt-4 text-center font-medium">
+              ✅ Formularul a fost trimis cu succes!
+            </div>
+            <div id="errorMessage" class="hidden text-red-600 text-sm mt-4 text-center font-medium">
+              ❌ A apărut o eroare la trimitere. Te rugăm să încerci din nou.
+            </div>
           </div>
         </form>
       </div>

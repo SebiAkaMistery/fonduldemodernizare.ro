@@ -55,7 +55,7 @@ const form = new IncomingForm({
 
     const mailOptions = {
       from: `"FonduldeModernizare.ro" <${process.env.SMTP_USER}>`,
-      to: 'office@sewcels.ro',
+      to: 'info@fonduldemodernizare.ro',
       subject: 'FM - Formular analiză eligibilitate',
       html: htmlBody,
       attachments,

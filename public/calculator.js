@@ -232,6 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
         budgetEligibleCostDisplay.textContent = eligibleCostRonVal.toLocaleString('ro-RO');
         budgetStateAidRonDisplay.textContent = stateAidTotalRON.toLocaleString('ro-RO', {maximumFractionDigits: 0});
         budgetOwnContributionDisplay.textContent = ownContributionRonVal.toLocaleString('ro-RO', {maximumFractionDigits: 0});
+        const venituriAnuale = totalAnnualIncome;
         paybackWithGrantDisplay.textContent = (venituriAnuale > 0 && ownContributionRonVal > 0) ? Math.round(amortizareCuGrant).toLocaleString('ro-RO') : '—';
 
 

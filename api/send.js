@@ -42,8 +42,8 @@ export default async function handler(req, res) {
     }).join('');
 
     const mailOptions = {
-      from: `"FonduldeModernizare.ro" <${process.env.EMAIL_FROM}>`,
-      to: process.env.EMAIL_TO,
+      from: process.env.SMTP_USER,
+      to: process.env.SMTP_USER,
       subject: 'FM - Formular analiză eligibilitate',
       html: htmlBody,
     };
